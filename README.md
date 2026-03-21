@@ -8,7 +8,7 @@ This project is built using Go (Golang) and follows clean backend architecture p
 
 ## 📌 Features
 
-- Report civic issues  
+- Define and manage issue data models  
 - Track issue status  
 - RESTful API design  
 - Clean backend architecture (handlers, services, models)  
@@ -22,6 +22,14 @@ This project is built using Go (Golang) and follows clean backend architecture p
 - REST APIs  
 
 ---
+
+## 📌 Current Status
+
+- Basic server setup ✅  
+- Route handling using Gin ✅  
+- Project structured using handlers ✅  
+- Issue data model implemented ✅  
+- API returning structured JSON response ✅  
 
 ## 📂 Project Structure
 
