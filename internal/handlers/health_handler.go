@@ -1,10 +1,17 @@
 package handlers
 
-import "github.com/gin-gonic/gin"
+import (
+	"civictrack/internal/models"
+	"github.com/gin-gonic/gin"
+)
 
-// HealthCheck(This handles the API health status)
 func HealthCheck(c *gin.Context) {
-	c.JSON(200, gin.H{
-		"status": "API working",
-	})
+	issue := models.Issue{
+		ID:          1,
+		Title:       "Pothole",
+		Description: "Big pothole on road",
+		Status:      "pending",
+	}
+
+	c.JSON(200, issue)
 }
