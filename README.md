@@ -37,26 +37,15 @@ civictrack/
 
 ## 🚀 Getting Started
 
+```bash
 # 1. Clone the repository
-```bash
 git clone https://github.com/lochit-vinay/civictrack.git
-```
+
 # 2. Navigate to project
-```bash
 cd civictrack
-```
+
 # 3. Run the server
-```bash
 go run main.go
-```
+
 # 4. Open in browser
-```bash
 http://localhost:8080/
-```
----
-
-Always use:
-
-```bash
-# comments
-commands
