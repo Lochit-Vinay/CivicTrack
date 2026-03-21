@@ -37,10 +37,14 @@ This project is built using Go (Golang) and follows clean backend architecture p
 civictrack/
 ├── internal/
 │   ├── handlers/
+│   │   └── health_handler.go
 │   ├── models/
+│   │   └── issue.go
 │   ├── services/
 ├── main.go
 ├── go.mod
+├── go.sum
+├── README.md
 ```
 
 ## 🚀 Getting Started
