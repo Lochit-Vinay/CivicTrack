@@ -11,5 +11,7 @@ func main() {
 	r.GET("/", handlers.HealthCheck)
     r.POST("/issues", handlers.CreateIssue)
 	r.GET("/issues", handlers.GetIssues)
+	r.PUT("/issues/:id", handlers.UpdateIssue)
+    r.DELETE("/issues/:id", handlers.DeleteIssue)
 	r.Run(":8080")	
 }
