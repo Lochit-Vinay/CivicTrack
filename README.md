@@ -32,6 +32,8 @@ This project is built using Go (Golang) and follows clean backend architecture p
 - API returning structured JSON response ✅
 - Create Issue API (POST /issues) ✅
 - Get Issues API (GET /issues) ✅
+- Update Issue API (PUT /issues/:id) ✅
+- Delete Issue API (DELETE /issues/:id) ✅
 
 ## 📂 Project Structure
 
