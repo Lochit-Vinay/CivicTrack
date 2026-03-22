@@ -42,11 +42,14 @@ This project is built using Go (Golang) and follows clean backend architecture p
 ```bash
 civictrack/
 ├── internal/
+│   ├── db/
+│   │   └── db.go
 │   ├── handlers/
 │   │   └── health_handler.go
 │   ├── models/
 │   │   └── issue.go
 │   ├── services/
+│   │   └── issue_service.go
 ├── main.go
 ├── go.mod
 ├── go.sum
