@@ -29,7 +29,9 @@ This project is built using Go (Golang) and follows clean backend architecture p
 - Route handling using Gin ✅  
 - Project structured using handlers ✅  
 - Issue data model implemented ✅  
-- API returning structured JSON response ✅  
+- API returning structured JSON response ✅
+- Create Issue API (POST /issues) ✅
+- Get Issues API (GET /issues) ✅
 
 ## 📂 Project Structure
 
