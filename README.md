@@ -32,10 +32,13 @@ This project is built using Go (Golang) and follows clean backend architecture p
 - API returning structured JSON response ✅
 - Create Issue API (POST /issues) ✅
 - Get Issues API (GET /issues) ✅
+- Get Issue by ID API (GET /issues/:id) ✅
 - Update Issue API (PUT /issues/:id) ✅
 - Delete Issue API (DELETE /issues/:id) ✅
 - PostgreSQL integration completed ✅
 - Full CRUD APIs using database ✅
+- Error handling implemented (404, 500) ✅
+- Dynamic routing using path parameters (:id) ✅
 
 ## 📂 Project Structure
 
