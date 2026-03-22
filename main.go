@@ -9,6 +9,7 @@ func main() {
 	r := gin.Default()
 
 	r.GET("/", handlers.HealthCheck)
-
-	r.Run(":8080")
+    r.POST("/issues", handlers.CreateIssue)
+	r.GET("/issues", handlers.GetIssues)
+	r.Run(":8080")	
 }
