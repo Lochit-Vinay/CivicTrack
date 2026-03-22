@@ -17,5 +17,6 @@ func main() {
 	r.GET("/issues", handlers.GetIssues)
 	r.PUT("/issues/:id", handlers.UpdateIssue)
 	r.DELETE("/issues/:id", handlers.DeleteIssue)
+	r.GET("/issues/:id", handlers.GetIssueByID)
 	r.Run(":8080")
 }

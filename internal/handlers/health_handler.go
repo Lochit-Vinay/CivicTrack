@@ -3,6 +3,7 @@ package handlers
 import (
 	"civictrack/internal/models"
 	"civictrack/internal/services"
+	"civictrack/internal/db" 
 	"github.com/gin-gonic/gin"
 )
 
@@ -72,4 +73,26 @@ func DeleteIssue(c *gin.Context) {
 	}
 
 	c.JSON(200, gin.H{"message": "Issue deleted"})
+}
+
+func GetIssueByID(c *gin.Context) {
+	id := c.Param("id")
+
+	query := "SELECT id, title, description, status FROM issues WHERE id = $1"
+
+	var issue models.Issue
+
+	err := db.DB.QueryRow(query, id).Scan(
+		&issue.ID,
+		&issue.Title,
+		&issue.Description,
+		&issue.Status,
+	)
+
+	if err != nil {
+		c.JSON(404, gin.H{"error": "Issue not found"})
+		return
+	}
+
+	c.JSON(200, issue)
 }
