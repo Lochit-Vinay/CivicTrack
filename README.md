@@ -40,23 +40,47 @@ This project is built using Go (Golang) and follows clean backend architecture p
 - Error handling implemented (404, 500) ✅
 - Dynamic routing using path parameters (:id) ✅
 
-## 📂 Project Structure
+## 📁 Project Structure
 
-```bash
+```
 civictrack/
-├── internal/
-│   ├── db/
-│   │   └── db.go
-│   ├── handlers/
-│   │   └── health_handler.go
-│   ├── models/
-│   │   └── issue.go
-│   ├── services/
-│   │   └── issue_service.go
-├── main.go
-├── go.mod
-├── go.sum
-├── README.md
+├── backend/                      # Go backend (API + business logic)
+│   ├── internal/
+│   │   ├── db/
+│   │   │   └── db.go             # Database connection setup
+│   │   ├── handlers/
+│   │   │   └── health_handler.go # Health check endpoint
+│   │   ├── models/
+│   │   │   └── issue.go          # Issue data model
+│   │   ├── services/
+│   │   │   └── issue_service.go  # Business logic for issues
+│   ├── main.go                   # Entry point of backend server
+│   ├── go.mod                    # Go module dependencies
+│   └── go.sum                    # Dependency checksums
+│
+├── Frontend/                    # Next.js frontend (UI)
+│   ├── app/
+│   │   ├── globals.css          # Global styles & design system
+│   │   ├── layout.tsx           # Root layout
+│   │   └── page.tsx             # Main dashboard page
+│   │
+│   ├── components/
+│   │   ├── dashboard-container.tsx # Main state container
+│   │   ├── issue-card.tsx          # Issue display card
+│   │   ├── issue-form.tsx          # Create/Edit issue form
+│   │   ├── issue-skeleton.tsx      # Loading skeleton UI
+│   │   ├── issues-list.tsx         # Issues grid/list
+│   │   └── delete-dialog.tsx       # Delete confirmation modal
+│   │
+│   ├── hooks/
+│   │   └── use-issues.ts           # Custom hook for issue management
+│   │
+│   ├── lib/
+│   │   └── api.ts                  # API client (TypeScript)
+│   │
+│   └── public/                    # Static assets
+│
+└── README.md
 ```
 
 ## 🚀 Getting Started
