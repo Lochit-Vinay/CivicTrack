@@ -77,11 +77,14 @@ export function DashboardContainer() {
     setIsEditing(false);
   };
 
-  const filteredIssues = issues.filter((issue) => {
-    const matchesSearch = issue.title?.toLowerCase().includes(search.toLowerCase());
-    const matchesStatus = statusFilter === "all" || issue.status === statusFilter;
-    return matchesSearch && matchesStatus;
-  });
+ const safeIssues = Array.isArray(issues) ? issues : [];
+
+const filteredIssues = safeIssues.filter((issue) => {
+  const matchesSearch =
+  issue.title?.toLowerCase().includes(search.toLowerCase()) ?? false;
+  const matchesStatus = statusFilter === "all" || issue.status === statusFilter;
+  return matchesSearch && matchesStatus;
+});
 
   return (
     <div className="relative space-y-8 p-1">

@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect, useCallback } from 'react';
-import { apiClient } from '@/lib/api';
+
 
 export interface Issue {
   id: number;
@@ -27,7 +27,7 @@ export const useIssues = () => {
       const res = await fetch('http://localhost:8080/issues');
       const data = await res.json();
 
-      setIssues(data);
+      setIssues(Array.isArray(data) ? data : data.data || []);
   } catch (err) {
     setError("Failed to fetch issues");
   } finally {
@@ -48,16 +48,18 @@ export const useIssues = () => {
       body: JSON.stringify(data),
     });
 
-    const newIssue = await res.json();
+    const result = await res.json();
+    console.log("CREATE RESPONSE:", result);
 
-    setIssues((prev) => [newIssue, ...prev]);
-    return newIssue;
+    await fetchIssues(); // ✅ THIS FIXES EVERYTHING
+
+    return result;
   } catch (err) {
     setError("Failed to create issue");
   } finally {
     setIsLoading(false);
   }
-}, []);
+}, [fetchIssues]);
 
   // 🔥 UPDATE ISSUE
  const updateIssue = useCallback(async (id: string | number, data: any) => {
@@ -74,8 +76,12 @@ export const useIssues = () => {
     await res.json(); // Wait for completion
 
     setIssues((prev) =>
-      prev.map((issue) => (issue.id === id ? { ...issue, ...data } : issue))
-    );
+  Array.isArray(prev)
+    ? prev.map((issue) =>
+        issue.id === id ? { ...issue, ...data } : issue
+      )
+    : []
+);
 
     return data;
   } catch (err) {
