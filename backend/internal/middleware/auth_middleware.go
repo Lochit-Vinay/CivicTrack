@@ -8,7 +8,7 @@ import (
 	"github.com/golang-jwt/jwt/v5"
 )
 
-var jwtKey = []byte("secret_key")
+var jwtKey = []byte("secret")
 
 func AuthMiddleware() gin.HandlerFunc {
 	return func(c *gin.Context) {
@@ -20,7 +20,15 @@ func AuthMiddleware() gin.HandlerFunc {
 			return
 		}
 
-		tokenString := strings.Split(authHeader, " ")[1]
+		parts := strings.Split(authHeader, " ")
+
+		if len(parts) != 2 || parts[0] != "Bearer" {
+			c.JSON(http.StatusUnauthorized, gin.H{"error": "Invalid token format"})
+			c.Abort()
+			return
+		}
+
+		tokenString := parts[1]
 
 		token, err := jwt.Parse(tokenString, func(token *jwt.Token) (interface{}, error) {
 			return jwtKey, nil
@@ -31,6 +39,23 @@ func AuthMiddleware() gin.HandlerFunc {
 			c.Abort()
 			return
 		}
+
+		claims, ok := token.Claims.(jwt.MapClaims)
+		if !ok {
+			c.JSON(http.StatusUnauthorized, gin.H{"error": "Invalid token claims"})
+			c.Abort()
+			return
+		}
+
+		email, ok := claims["email"].(string)
+		if !ok {
+			c.JSON(http.StatusUnauthorized, gin.H{"error": "Email not found in token"})
+			c.Abort()
+			return
+		}
+
+		// store in context
+		c.Set("user_email", email)
 
 		c.Next()
 	}

@@ -3,6 +3,7 @@ package main
 import (
 	"civictrack/internal/db"
 	"civictrack/internal/handlers"
+	"civictrack/internal/middleware"
 
 	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
@@ -11,18 +12,25 @@ import (
 func main() {
 	r := gin.Default()
 
-	r.Use(cors.Default())
+	r.Use(cors.New(cors.Config{
+		AllowOrigins:     []string{"http://localhost:3000"},
+		AllowMethods:     []string{"GET", "POST", "PUT", "DELETE", "OPTIONS"},
+		AllowHeaders:     []string{"Origin", "Content-Type", "Authorization"},
+		ExposeHeaders:    []string{"Content-Length"},
+		AllowCredentials: true,
+	}))
 
 	db.ConnectDB()
 
 	r.GET("/api/health", handlers.HealthCheck)
 	r.POST("/signup", handlers.Signup)
 	r.POST("/login", handlers.Login)
+	r.POST("/auth/google", handlers.GoogleLogin)
 
-	r.GET("/issues", handlers.GetIssues)
-r.POST("/issues", handlers.CreateIssue)
-r.PUT("/issues/:id", handlers.UpdateIssue)
-r.DELETE("/issues/:id", handlers.DeleteIssue)
-r.GET("/issues/:id", handlers.GetIssueByID)
+	r.GET("/issues", middleware.AuthMiddleware(), handlers.GetIssues)
+	r.POST("/issues", middleware.AuthMiddleware(), handlers.CreateIssue)
+	r.PUT("/issues/:id", middleware.AuthMiddleware(), handlers.UpdateIssue)
+	r.DELETE("/issues/:id", middleware.AuthMiddleware(), handlers.DeleteIssue)
+	r.GET("/issues/:id", middleware.AuthMiddleware(), handlers.GetIssueByID)
 	r.Run(":8080")
 }

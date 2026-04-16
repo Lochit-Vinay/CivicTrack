@@ -1,9 +1,11 @@
 package handlers
 
 import (
+	"civictrack/internal/db"
 	"civictrack/internal/models"
 	"civictrack/internal/services"
-	"civictrack/internal/db" 
+	"fmt"
+
 	"github.com/gin-gonic/gin"
 )
 
@@ -23,7 +25,12 @@ func CreateIssue(c *gin.Context) {
 		return
 	}
 
-	result, err := services.CreateIssue(input)
+	// 🔥 ADD THIS
+	email, _ := c.Get("user_email")
+	fmt.Println("USER EMAIL:", email)
+
+	// 🔥 PASS email to service
+	result, err := services.CreateIssue(input, email.(string))
 	if err != nil {
 		c.JSON(500, gin.H{"error": "Failed to create"})
 		return
@@ -34,7 +41,11 @@ func CreateIssue(c *gin.Context) {
 
 // GET all issues
 func GetIssues(c *gin.Context) {
-	issues, err := services.GetIssues()
+	// 🔥 ADD THIS
+	email, _ := c.Get("user_email")
+
+	// 🔥 PASS email to service
+	issues, err := services.GetIssues(email.(string))
 	if err != nil {
 		c.JSON(500, gin.H{"error": "Failed to fetch"})
 		return

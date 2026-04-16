@@ -2,7 +2,6 @@
 
 import { useState, useEffect, useCallback } from 'react';
 
-
 export interface Issue {
   id: number;
   title: string;
@@ -23,95 +22,125 @@ export const useIssues = () => {
   const fetchIssues = useCallback(async () => {
     setIsLoading(true);
     setError(null);
+
+    const token = localStorage.getItem("token");
+
     try {
-      const res = await fetch('http://localhost:8080/issues');
+      const res = await fetch('http://localhost:8080/issues', {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
       const data = await res.json();
-
+      if (!res.ok) {
+        throw new Error(data.error || "Failed to fetch issues");
+      }
       setIssues(Array.isArray(data) ? data : data.data || []);
-  } catch (err) {
-    setError("Failed to fetch issues");
-  } finally {
-    setIsLoading(false);
-  }
-}, []);
+    } catch (err) {
+      setError("Failed to fetch issues");
+    } finally {
+      setIsLoading(false);
+    }
+  }, []);
 
-  // 🔥 CREATE ISSUE
-  const createIssue = useCallback(async (data) => {
-  setIsLoading(true);
+  // CREATE ISSUE
+  const createIssue = useCallback(async (data: Partial<Issue>) => {
+    setIsLoading(true);
 
-  try {
-    const res = await fetch("http://localhost:8080/issues", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(data),
-    });
+    const token = localStorage.getItem("token");
 
-    const result = await res.json();
-    console.log("CREATE RESPONSE:", result);
+    try {
+      const res = await fetch("http://localhost:8080/issues", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify(data),
+      });
 
-    await fetchIssues(); // ✅ THIS FIXES EVERYTHING
+      const result = await res.json();
+      if (!res.ok) {
+        throw new Error(result.error || "Failed to create issue");
+      }
+      await fetchIssues();
 
-    return result;
-  } catch (err) {
-    setError("Failed to create issue");
-  } finally {
-    setIsLoading(false);
-  }
-}, [fetchIssues]);
+      return result;
+    } catch (err) {
+      setError("Failed to create issue");
+    } finally {
+      setIsLoading(false);
+    }
+  }, [fetchIssues]);
 
-  // 🔥 UPDATE ISSUE
- const updateIssue = useCallback(async (id: string | number, data: any) => {
-  setIsLoading(true);
-  try {
-    const res = await fetch(`http://localhost:8080/issues/${id}`, {
-      method: "PUT",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(data),
-    });
+  //  UPDATE ISSUE
+  const updateIssue = useCallback(async (id: string | number, data: Partial<Issue>) => {
+    setIsLoading(true);
 
-    await res.json(); // Wait for completion
+    const token = localStorage.getItem("token");
 
-    setIssues((prev) =>
-  Array.isArray(prev)
-    ? prev.map((issue) =>
-        issue.id === id ? { ...issue, ...data } : issue
-      )
-    : []
-);
+    try {
+      const res = await fetch(`http://localhost:8080/issues/${id}`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify(data),
+      });
 
-    return data;
-  } catch (err) {
-    setError("Failed to update issue");
-    throw err;
-  } finally {
-    setIsLoading(false);
-  }
-}, []);
+      const result = await res.json();
+      if (!res.ok) {
+        throw new Error(result.error || "Failed to update issue");
+      }
 
+      setIssues((prev) =>
+        Array.isArray(prev)
+          ? prev.map((issue) =>
+              issue.id === id ? { ...issue, ...data } : issue
+            )
+          : []
+      );
 
+      return data;
+    } catch (err) {
+      setError("Failed to update issue");
+      throw err;
+    } finally {
+      setIsLoading(false);
+    }
+  }, []);
 
-  // 🔥 DELETE ISSUE
+  //  DELETE ISSUE
   const deleteIssue = useCallback(async (id: string | number) => {
-  setIsLoading(true);
-  try {
-    await fetch(`http://localhost:8080/issues/${id}`, {
-      method: "DELETE",
-    });
+    setIsLoading(true);
 
-    setIssues((prev) => prev.filter((issue) => issue.id !== id));
-  } catch (err) {
-    setError("Failed to delete issue");
-    throw err;
-  } finally {
-    setIsLoading(false);
-  }
-}, []);
+    const token = localStorage.getItem("token");
 
-  // 🔥 AUTO LOAD ON PAGE LOAD
+    try {
+      const res = await fetch(`http://localhost:8080/issues/${id}`, {
+        method: "DELETE",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      if (!res.ok) {
+        const result = await res.json();
+        throw new Error(result.error || "Failed to delete issue");
+      }
+
+      setIssues((prev) => prev.filter((issue) => issue.id !== id));
+    } catch (err) {
+      setError("Failed to delete issue");
+      throw err;
+    } finally {
+      setIsLoading(false);
+    }
+  }, []);
+
+  //  AUTO LOAD ON PAGE LOAD
   useEffect(() => {
     fetchIssues();
   }, [fetchIssues]);

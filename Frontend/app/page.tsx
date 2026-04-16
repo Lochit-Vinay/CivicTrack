@@ -50,11 +50,8 @@ export default function LandingPage() {
           <span className="hover:text-white transition-colors cursor-pointer">For Cities</span>
         </div>
         <div className="flex items-center gap-6 text-sm font-medium">
-          <Link href="/login">
-            <button className="hidden md:block text-slate-400 hover:text-white transition-colors cursor-pointer">Log in</button>
-          </Link>
-          <Link href="/dashboard" className="px-5 py-2.5 rounded-full bg-white/10 hover:bg-white/15 border border-white/10 transition-all text-white backdrop-blur-md">
-            Get Started
+          <Link href="/login" className="px-5 py-2.5 rounded-full bg-white/10 hover:bg-white/15 border border-white/10 transition-all text-white backdrop-blur-md">
+            Log in and Get Started
           </Link>
         </div>
       </nav>
