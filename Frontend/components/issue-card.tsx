@@ -10,6 +10,7 @@ interface IssueCardProps {
   issue: Issue;
   onEdit: (issue: Issue) => void;
   onDelete: (id: number) => void;
+  onFocusMap?: (lat: number, lng: number) => void;
 }
 
 const priorityColors = {
@@ -26,7 +27,7 @@ const statusColors = {
   closed: 'bg-gray-900/20 text-gray-400 border-gray-700/30',
 };
 
-export function IssueCard({ issue, onEdit, onDelete }: IssueCardProps) {
+export function IssueCard({ issue, onEdit, onDelete, onFocusMap }: IssueCardProps) {
   const formattedDate = issue.created_at
     ? new Date(issue.created_at.replace('Z', '')).toLocaleDateString('en-US', {
         year: 'numeric',
@@ -35,8 +36,22 @@ export function IssueCard({ issue, onEdit, onDelete }: IssueCardProps) {
       })
     : 'Recently';
 
+  const handleFocus = () => {
+    if (!onFocusMap || !issue.location) return;
+    try {
+      const parsed = JSON.parse(issue.location);
+      if (parsed && typeof parsed === 'object' && parsed.lat && parsed.lng) {
+        onFocusMap(parsed.lat, parsed.lng);
+      }
+    } catch {}
+  };
+
   return (
-    <Card className="group relative overflow-hidden border border-white/10 bg-white/5 backdrop-blur-xl hover:bg-white/10 hover:border-white/20 transition-all duration-500 ease-out hover:-translate-y-1.5 hover:shadow-[0_12px_40px_-12px_rgba(59,130,246,0.25)] rounded-2xl">
+    <Card 
+      onClick={handleFocus}
+      onMouseEnter={handleFocus}
+      className="group cursor-pointer relative overflow-hidden border border-white/10 bg-white/5 backdrop-blur-xl hover:bg-white/10 hover:border-white/20 transition-all duration-500 ease-out hover:-translate-y-1.5 hover:shadow-[0_12px_40px_-12px_rgba(59,130,246,0.25)] rounded-2xl"
+    >
       {/* Subtle top highlight gradient on hover */}
       <div className="absolute inset-x-0 top-0 h-[1px] bg-gradient-to-r from-transparent via-blue-400/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
       
@@ -83,7 +98,15 @@ export function IssueCard({ issue, onEdit, onDelete }: IssueCardProps) {
         </div>
 
         <div className="flex items-center gap-4 text-xs font-medium text-slate-500 pt-1">
-          <span className="flex items-center gap-1.5"><span className="text-base leading-none">📍</span> {issue.location}</span>
+          <span className="flex items-center gap-1.5"><span className="text-base leading-none">📍</span> {(() => {
+            if (!issue.location) return 'N/A';
+            try {
+              const parsed = JSON.parse(issue.location);
+              return parsed.address || 'Unknown Location';
+            } catch {
+              return issue.location; // fallback if it's already a regular string
+            }
+          })()}</span>
           <span className="w-1 h-1 rounded-full bg-slate-600 block"></span>
           <span>{formattedDate}</span>
         </div>

@@ -8,9 +8,10 @@ interface IssuesListProps {
   issues: Issue[];
   onEdit: (issue: Issue) => void;
   onDelete: (id: number) => void;
+  onFocusMap: (lat: number, lng: number) => void;
 }
 
-export function IssuesList({ issues, onEdit, onDelete }: IssuesListProps) {
+export function IssuesList({ issues, onEdit, onDelete, onFocusMap }: IssuesListProps) {
   if (!issues || issues.length === 0) {
     return (
       <Empty
@@ -29,6 +30,7 @@ export function IssuesList({ issues, onEdit, onDelete }: IssuesListProps) {
           issue={issue}
           onEdit={onEdit}
           onDelete={onDelete}
+          onFocusMap={onFocusMap}
         />
       ))}
     </div>

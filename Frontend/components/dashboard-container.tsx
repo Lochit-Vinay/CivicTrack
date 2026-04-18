@@ -9,6 +9,12 @@ import { IssueForm } from './issue-form';
 import { DeleteDialog } from './delete-dialog';
 import { toast } from 'sonner';
 import { Plus, AlertCircle } from 'lucide-react';
+import dynamic from 'next/dynamic';
+
+const IssuesMap = dynamic(() => import('@/components/IssuesMap'), {
+  ssr: false,
+  loading: () => <div className="h-[400px] w-full rounded-xl bg-slate-800 animate-pulse flex items-center justify-center text-slate-400">Loading Map...</div>
+});
 import { Spinner } from '@/components/ui/spinner';
 
 export function DashboardContainer() {
@@ -30,6 +36,7 @@ export function DashboardContainer() {
   const [issueToDelete, setIssueToDelete] = useState<number | null>(null);
   const [isFormLoading, setIsFormLoading] = useState(false);
   const [isDeleteLoading, setIsDeleteLoading] = useState(false);
+  const [focusedLocation, setFocusedLocation] = useState<[number, number] | null>(null);
 
   const handleSubmitIssue = async (data: any) => {
     setIsFormLoading(true);
@@ -141,6 +148,13 @@ const filteredIssues = safeIssues.filter((issue) => {
       {isLoading && <p className="text-slate-400 text-center py-8">Loading issues...</p>}
       {!isLoading && filteredIssues.length === 0 && <p className="text-slate-500 text-center py-8">No issues found</p>}
 
+      {/* Map view of issues */}
+      {!isLoading && filteredIssues.length > 0 && (
+        <div className="mb-8 rounded-xl overflow-hidden border border-white/10 shadow-2xl relative z-0">
+          <IssuesMap issues={filteredIssues} focusedLocation={focusedLocation} />
+        </div>
+      )}
+
       {/* Search Input & Filter */}
       <div className="mb-8 flex flex-col sm:flex-row gap-4">
         <div className="relative flex-1 group">
@@ -177,6 +191,7 @@ const filteredIssues = safeIssues.filter((issue) => {
           issues={filteredIssues}
           onEdit={handleEditIssue}
           onDelete={handleDeleteClick}
+          onFocusMap={(lat: number, lng: number) => setFocusedLocation([lat, lng])}
         />
       )}
 

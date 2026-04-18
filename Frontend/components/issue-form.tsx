@@ -1,10 +1,16 @@
 'use client';
 
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import { Issue } from '@/hooks/use-issues';
+import dynamic from 'next/dynamic';
+
+const MapPicker = dynamic(() => import('@/components/MapPicker'), {
+  ssr: false,
+  loading: () => <div className="h-[200px] w-full rounded-xl bg-slate-800 animate-pulse flex items-center justify-center text-slate-400">Loading Map...</div>
+});
 import { Button } from '@/components/ui/button';
 import {
   DialogHeader,
@@ -62,6 +68,7 @@ export function IssueForm({
   onSubmit,
   onClose,
 }: IssueFormProps) {
+  const [location, setLocation] = useState<any>(null);
   const {
     register,
     handleSubmit,
@@ -73,7 +80,15 @@ export function IssueForm({
     defaultValues: {
       title: issue?.title || '',
       description: issue?.description || '',
-      location: issue?.location || '',
+      location: (() => {
+        if (!issue?.location) return '';
+        try {
+          const parsed = JSON.parse(issue.location);
+          return parsed.address || issue.location;
+        } catch {
+          return issue.location;
+        }
+      })(),
       category: issue?.category || '',
       priority: (issue?.priority as 'low' | 'medium' | 'high' | 'critical') || 'medium',
     },
@@ -84,7 +99,32 @@ export function IssueForm({
 
   const handleFormSubmit = async (data: IssueFormValues) => {
     try {
-      await onSubmit(data);
+      let finalLat = location ? location.lat : null;
+      let finalLng = location ? location.lng : null;
+
+      if (!finalLat || !finalLng) {
+        try {
+          const res = await fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(data.location)}`);
+          if (res.ok) {
+            const results = await res.json();
+            if (results && results.length > 0) {
+              finalLat = parseFloat(results[0].lat);
+              finalLng = parseFloat(results[0].lon);
+            }
+          }
+        } catch (err) {
+          console.error('Geocoding error:', err);
+        }
+      }
+
+      await onSubmit({
+        ...data,
+        location: JSON.stringify({
+          address: data.location,
+          lat: finalLat,
+          lng: finalLng
+        }),
+      });
       onClose();
     } catch (error) {
       console.error('Form submission error:', error);
@@ -92,7 +132,7 @@ export function IssueForm({
   };
 
   return (
-    <DialogContent className="sm:max-w-[550px] bg-slate-950/90 backdrop-blur-2xl border-white/10 shadow-2xl p-6 rounded-3xl">
+    <DialogContent className="sm:max-w-[550px] w-[95vw] max-h-[90vh] overflow-y-auto bg-slate-950/90 backdrop-blur-2xl border-white/10 shadow-2xl p-6 rounded-3xl">
       <DialogHeader>
         <DialogTitle className="text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-indigo-400">
           {issue ? 'Edit Issue' : 'Report New Issue'}
@@ -132,6 +172,7 @@ export function IssueForm({
 
         <FieldGroup>
           <FieldLabel>Location</FieldLabel>
+          <MapPicker onSelect={(loc: any) => setLocation(loc)} />
           <Field>
             <Input
               {...register('location')}
