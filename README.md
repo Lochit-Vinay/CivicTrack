@@ -24,7 +24,7 @@
 <br />
 
 <p align="center">
-  <img src="https://via.placeholder.com/1200x600/0d1117/58a6ff?text=CivicTrack+%E2%80%94+Landing+Page" alt="CivicTrack Landing Page" width="100%" />
+  <img src="https://drive.google.com/file/d/1p15k1dLaHI2109htsGmWXaZDStzQ1G2e/view?usp=sharing" alt="CivicTrack Landing Page" width="100%" />
 </p>
 
 ---
