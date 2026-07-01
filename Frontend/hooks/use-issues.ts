@@ -10,7 +10,9 @@ export interface Issue {
   priority?: string;
   category?: string;
   location?: string;
+  state?: string;
   created_at?: string;
+  image?: string;
 }
 
 export const useIssues = () => {
