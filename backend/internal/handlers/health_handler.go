@@ -41,11 +41,21 @@ func CreateIssue(c *gin.Context) {
 
 // GET all issues
 func GetIssues(c *gin.Context) {
-	// 🔥 ADD THIS
 	email, _ := c.Get("user_email")
 
-	// 🔥 PASS email to service
-	issues, err := services.GetIssues(email.(string))
+	roleVal, exists := c.Get("user_role")
+	role := "citizen"
+	if exists {
+		role = roleVal.(string)
+	}
+
+	stateVal, exists := c.Get("user_state")
+	state := ""
+	if exists {
+		state = stateVal.(string)
+	}
+
+	issues, err := services.GetIssues(email.(string), role, state)
 	if err != nil {
 		c.JSON(500, gin.H{"error": "Failed to fetch"})
 		return
@@ -89,7 +99,7 @@ func DeleteIssue(c *gin.Context) {
 func GetIssueByID(c *gin.Context) {
 	id := c.Param("id")
 
-	query := "SELECT id, title, description, status, COALESCE(priority, ''), COALESCE(category, ''), COALESCE(location, ''), COALESCE(created_at::text, '') FROM issues WHERE id = $1"
+	query := "SELECT id, title, description, status, COALESCE(priority, ''), COALESCE(category, ''), COALESCE(location, ''), COALESCE(state, ''), COALESCE(image, ''), COALESCE(created_at::text, '') FROM issues WHERE id = $1"
 
 	var issue models.Issue
 
@@ -101,6 +111,8 @@ func GetIssueByID(c *gin.Context) {
 		&issue.Priority,
 		&issue.Category,
 		&issue.Location,
+		&issue.State,
+		&issue.Image,
 		&issue.CreatedAt,
 	)
 
