@@ -1,14 +1,16 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { useRouter } from 'next/navigation';
 import { useIssues, Issue } from '@/hooks/use-issues';
 import { Button } from '@/components/ui/button';
 import { Dialog, DialogTrigger } from '@/components/ui/dialog';
 import { IssuesList } from './issues-list';
 import { IssueForm } from './issue-form';
 import { DeleteDialog } from './delete-dialog';
+import { IssueDetailsModal } from './issue-details-modal';
 import { toast } from 'sonner';
-import { Plus, AlertCircle } from 'lucide-react';
+import { Plus, AlertCircle, ArrowLeft, LogOut } from 'lucide-react';
 import dynamic from 'next/dynamic';
 
 const IssuesMap = dynamic(() => import('@/components/IssuesMap'), {
@@ -18,6 +20,7 @@ const IssuesMap = dynamic(() => import('@/components/IssuesMap'), {
 import { Spinner } from '@/components/ui/spinner';
 
 export function DashboardContainer() {
+  const router = useRouter();
   const {
     issues,
     isLoading,
@@ -30,6 +33,8 @@ export function DashboardContainer() {
   const [isFormOpen, setIsFormOpen] = useState(false);
   const [isDeleteOpen, setIsDeleteOpen] = useState(false);
   const [selectedIssue, setSelectedIssue] = useState<Issue | null>(null);
+  const [viewedIssue, setViewedIssue] = useState<Issue | null>(null);
+  const [isViewOpen, setIsViewOpen] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
   const [search, setSearch] = useState("");
   const [statusFilter, setStatusFilter] = useState("all");
@@ -37,6 +42,26 @@ export function DashboardContainer() {
   const [isFormLoading, setIsFormLoading] = useState(false);
   const [isDeleteLoading, setIsDeleteLoading] = useState(false);
   const [focusedLocation, setFocusedLocation] = useState<[number, number] | null>(null);
+
+  const [isClient, setIsClient] = useState(false);
+  const [userRole, setUserRole] = useState<string | null>(null);
+
+  useEffect(() => {
+    setIsClient(true);
+    const token = localStorage.getItem('token');
+    const role = localStorage.getItem('role');
+    setUserRole(role);
+    if (!token) {
+      router.push('/login');
+    }
+  }, [router]);
+
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+    localStorage.removeItem("role");
+    toast.success("Logged out successfully");
+    router.push("/login");
+  };
 
   const handleSubmitIssue = async (data: any) => {
     setIsFormLoading(true);
@@ -78,6 +103,11 @@ export function DashboardContainer() {
     setIsFormOpen(true);
   };
 
+  const handleViewIssue = (issue: Issue) => {
+    setViewedIssue(issue);
+    setIsViewOpen(true);
+  };
+
   const handleFormClose = () => {
     setIsFormOpen(false);
     setSelectedIssue(null);
@@ -100,29 +130,65 @@ const filteredIssues = safeIssues.filter((issue) => {
       <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-indigo-600/10 rounded-full blur-[100px] pointer-events-none -z-10" />
 
       {/* Header */}
-      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+      <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-6 border-b border-white/5 pb-6">
         <div>
-          <h1 className="text-4xl sm:text-5xl font-extrabold bg-clip-text text-transparent bg-gradient-to-r from-blue-400 via-indigo-400 to-purple-400 drop-shadow-sm tracking-tight mb-2">
-            CivicTrack
-          </h1>
+          <div className="flex flex-wrap items-center gap-3 mb-2">
+            <h1 className="text-4xl sm:text-5xl font-extrabold bg-clip-text text-transparent bg-gradient-to-r from-blue-400 via-indigo-400 to-purple-400 drop-shadow-sm tracking-tight">
+              CivicTrack
+            </h1>
+            {isClient && userRole && (
+              <span className={`px-2.5 py-1 rounded-full text-xs font-semibold uppercase tracking-wider ${
+                userRole === 'admin' 
+                  ? 'bg-red-500/10 text-red-400 border border-red-500/20' 
+                  : userRole === 'authority' 
+                  ? 'bg-purple-500/10 text-purple-400 border border-purple-500/20' 
+                  : 'bg-blue-500/10 text-blue-400 border border-blue-500/20'
+              }`}>
+                {userRole}
+              </span>
+            )}
+          </div>
           <p className="text-slate-400 text-sm sm:text-base max-w-md">
             Manage, track, and resolve civic issues in your community in real-time.
           </p>
         </div>
-        <Dialog open={isFormOpen} onOpenChange={setIsFormOpen}>
-          <DialogTrigger asChild>
-            <Button className="bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white shadow-lg shadow-blue-500/25 transition-all duration-300 hover:scale-105 active:scale-95 gap-2 font-medium border border-blue-400/20 rounded-xl px-5 py-6">
-              <Plus className="w-5 h-5" />
-              Report Issue
+
+        <div className="flex flex-wrap items-center gap-3 w-full md:w-auto">
+          <Button
+            onClick={() => router.push('/')}
+            variant="outline"
+            className="border border-white/10 bg-white/5 text-slate-300 hover:text-white hover:bg-white/10 transition-all duration-300 hover:scale-105 active:scale-95 gap-2 font-medium rounded-xl px-5 py-6"
+          >
+            <ArrowLeft className="w-4 h-4" />
+            Back to Home
+          </Button>
+
+          {isClient && localStorage.getItem("token") && (
+            <Button
+              onClick={handleLogout}
+              variant="outline"
+              className="border border-red-500/20 bg-red-500/5 text-red-400 hover:text-red-300 hover:bg-red-500/10 transition-all duration-300 hover:scale-105 active:scale-95 gap-2 font-medium rounded-xl px-5 py-6"
+            >
+              <LogOut className="w-4 h-4" />
+              Logout
             </Button>
-          </DialogTrigger>
-          <IssueForm
-            issue={selectedIssue || undefined}
-            isLoading={isFormLoading}
-            onSubmit={handleSubmitIssue}
-            onClose={handleFormClose}
-          />
-        </Dialog>
+          )}
+
+          <Dialog open={isFormOpen} onOpenChange={setIsFormOpen}>
+            <DialogTrigger asChild>
+              <Button className="bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white shadow-lg shadow-blue-500/25 transition-all duration-300 hover:scale-105 active:scale-95 gap-2 font-medium border border-blue-400/20 rounded-xl px-5 py-6">
+                <Plus className="w-5 h-5" />
+                Report Issue
+              </Button>
+            </DialogTrigger>
+            <IssueForm
+              issue={selectedIssue || undefined}
+              isLoading={isFormLoading}
+              onSubmit={handleSubmitIssue}
+              onClose={handleFormClose}
+            />
+          </Dialog>
+        </div>
       </div>
 
       {/* Error State */}
@@ -147,6 +213,24 @@ const filteredIssues = safeIssues.filter((issue) => {
       {/* Loading & Empty UI */}
       {isLoading && <p className="text-slate-400 text-center py-8">Loading issues...</p>}
       {!isLoading && filteredIssues.length === 0 && <p className="text-slate-500 text-center py-8">No issues found</p>}
+
+      {/* Metrics Status Bar */}
+      {!isLoading && safeIssues.length > 0 && (
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
+          <div className="bg-slate-900/50 border border-white/10 rounded-xl p-5 flex flex-col items-center justify-center text-center shadow-lg backdrop-blur-md transition-transform hover:scale-105">
+            <h3 className="text-sm font-medium text-slate-400 mb-1">Total Issues</h3>
+            <p className="text-3xl font-bold text-white">{safeIssues.length}</p>
+          </div>
+          <div className="bg-blue-900/20 border border-blue-500/20 rounded-xl p-5 flex flex-col items-center justify-center text-center shadow-lg backdrop-blur-md transition-transform hover:scale-105">
+            <h3 className="text-sm font-medium text-blue-400 mb-1">Issues Pending</h3>
+            <p className="text-3xl font-bold text-blue-50">{safeIssues.filter(i => i.status === 'pending' || i.status === 'open').length}</p>
+          </div>
+          <div className="bg-green-900/20 border border-green-500/20 rounded-xl p-5 flex flex-col items-center justify-center text-center shadow-lg backdrop-blur-md transition-transform hover:scale-105">
+            <h3 className="text-sm font-medium text-green-400 mb-1">Solved and Fixed</h3>
+            <p className="text-3xl font-bold text-green-50">{safeIssues.filter(i => i.status === 'Solved and Fixed' || i.status === 'resolved' || i.status === 'Fixed' || i.status === 'closed').length}</p>
+          </div>
+        </div>
+      )}
 
       {/* Map view of issues */}
       {!isLoading && filteredIssues.length > 0 && (
@@ -189,13 +273,27 @@ const filteredIssues = safeIssues.filter((issue) => {
       {!isLoading && filteredIssues.length > 0 && (
         <IssuesList
           issues={filteredIssues}
+          userRole={userRole}
+          onUpdateStatus={async (issue, newStatus) => {
+            try {
+              await updateIssue(issue.id, { ...issue, status: newStatus });
+              toast.success(`Status updated to "${newStatus}"`);
+            } catch (err) {
+              toast.error("Failed to update status");
+            }
+          }}
           onEdit={handleEditIssue}
           onDelete={handleDeleteClick}
           onFocusMap={(lat: number, lng: number) => setFocusedLocation([lat, lng])}
+          onViewIssue={handleViewIssue}
         />
       )}
 
       {/* Delete Dialog has been replaced with window.confirm above */}
+      
+      <Dialog open={isViewOpen} onOpenChange={setIsViewOpen}>
+        <IssueDetailsModal issue={viewedIssue || undefined} />
+      </Dialog>
     </div>
   );
 }
