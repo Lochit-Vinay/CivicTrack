@@ -1,7 +1,7 @@
 'use client';
 
 import Link from 'next/link';
-import { ArrowRight, MapPin, Activity, Shield, BarChart3, Users, Zap, Search } from 'lucide-react';
+import { ArrowRight, MapPin, Activity, Shield, BarChart3, Users, Zap, Search, Building2, Wrench, CheckCircle2 } from 'lucide-react';
 import { useEffect, useState } from 'react';
 
 const CivicTrackLogo = ({ className = "w-12 h-12" }: { className?: string }) => (
@@ -20,7 +20,18 @@ const CivicTrackLogo = ({ className = "w-12 h-12" }: { className?: string }) => 
 );
 export default function LandingPage() {
   const [mounted, setMounted] = useState(false);
-  useEffect(() => setMounted(true), []);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+    setIsLoggedIn(!!localStorage.getItem("token"));
+  }, []);
+
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+    localStorage.removeItem("role");
+    setIsLoggedIn(false);
+  };
 
   return (
     <div className="min-h-screen bg-[#070708] text-slate-50 font-sans selection:bg-blue-500/30 overflow-x-hidden selection:text-white">
@@ -43,16 +54,33 @@ export default function LandingPage() {
             <span className="text-[11px] tracking-[0.25em] text-[#8194F4] font-semibold uppercase mt-0.5">Civic Issue Management</span>
           </div>
         </div>
-        <div className="hidden lg:flex items-center gap-10 text-sm font-medium text-slate-400">
-          <span className="hover:text-white transition-colors cursor-pointer">Platform</span>
-          <span className="hover:text-white transition-colors cursor-pointer">Live Map</span>
-          <span className="hover:text-white transition-colors cursor-pointer">Impact Metrics</span>
-          <span className="hover:text-white transition-colors cursor-pointer">For Cities</span>
-        </div>
-        <div className="flex items-center gap-6 text-sm font-medium">
-          <Link href="/login" className="px-5 py-2.5 rounded-full bg-white/10 hover:bg-white/15 border border-white/10 transition-all text-white backdrop-blur-md">
-            Log in and Get Started
-          </Link>
+
+        <div className="flex items-center gap-3.5 text-sm font-medium">
+          {mounted && isLoggedIn ? (
+            <>
+              <Link href="/dashboard" className="px-5 py-2.5 rounded-full bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white font-medium shadow-lg shadow-blue-500/20 active:scale-95 transition-all">
+                Go to Dashboard
+              </Link>
+              <button
+                onClick={handleLogout}
+                className="px-5 py-2.5 rounded-full bg-red-500/10 hover:bg-red-500/20 border border-red-500/20 text-red-400 font-semibold active:scale-95 transition-all"
+              >
+                Logout
+              </button>
+            </>
+          ) : (
+            <>
+              <Link href="/login?role=citizen" className="px-4 py-2 rounded-full bg-white/5 hover:bg-white/10 border border-white/10 transition-all text-white backdrop-blur-md">
+                Citizen Login
+              </Link>
+              <Link href="/login?role=authority" className="px-4 py-2 rounded-full bg-white/5 hover:bg-white/10 border border-white/10 transition-all text-white backdrop-blur-md">
+                Authority Login
+              </Link>
+              <Link href="/login?role=admin" className="px-4 py-2 rounded-full bg-white text-black hover:bg-slate-200 border border-white transition-all">
+                Admin Login
+              </Link>
+            </>
+          )}
         </div>
       </nav>
 
@@ -100,9 +128,9 @@ export default function LandingPage() {
               
               {/* Fake OSX Window Header */}
               <div className="h-12 bg-white/[0.02] border-b border-white/5 flex items-center px-6 gap-2 backdrop-blur-sm relative z-20">
-                <div className="w-3 h-3 rounded-full bg-slate-700" />
-                <div className="w-3 h-3 rounded-full bg-slate-700" />
-                <div className="w-3 h-3 rounded-full bg-slate-700" />
+                <div className="w-3 h-3 rounded-full bg-[#ff5f56] border border-[#e0443e]" />
+                <div className="w-3 h-3 rounded-full bg-[#ffbd2e] border border-[#dea123]" />
+                <div className="w-3 h-3 rounded-full bg-[#27c93f] border border-[#1aab29]" />
                 <div className="mx-auto flex items-center bg-black/40 px-3 py-1 rounded-md border border-white/5">
                   <Search className="w-3 h-3 text-slate-500 mr-2" />
                   <span className="text-[10px] text-slate-500 font-medium">Search mapping data...</span>
@@ -110,9 +138,13 @@ export default function LandingPage() {
               </div>
 
               {/* Fake Map Content */}
-              <div className="relative h-full bg-[#0a0a0a] p-6 overflow-hidden">
-                {/* Map Grid Pattern */}
-                <div className="absolute inset-0 opacity-30 bg-[url('https://maps.googleapis.com/maps/api/staticmap?center=San+Francisco,CA&zoom=14&size=800x800&maptype=roadmap&style=feature:all|element:labels|visibility:off&style=feature:landscape|color:0x0B0C0E&style=feature:water|color:0x070708&style=feature:road|color:0x1a1a24')] bg-cover bg-center mix-blend-luminosity grayscale contrast-125"></div>
+              <div className="relative h-full bg-[#040914] p-6 overflow-hidden">
+                {/* Dynamic Animated Grid */}
+                <div className="absolute inset-0 bg-[linear-gradient(to_right,#3b82f61a_1px,transparent_1px),linear-gradient(to_bottom,#3b82f61a_1px,transparent_1px)] bg-[size:24px_24px] [mask-image:radial-gradient(ellipse_80%_80%_at_50%_50%,#000_20%,transparent_100%)]"></div>
+                
+                {/* Glowing Orbs for Map Background */}
+                <div className="absolute top-[-10%] right-[-10%] w-96 h-96 bg-blue-600/20 rounded-full blur-[100px] pointer-events-none animate-pulse"></div>
+                <div className="absolute bottom-[-10%] left-[-10%] w-96 h-96 bg-indigo-600/20 rounded-full blur-[100px] pointer-events-none animate-pulse delay-1000"></div>
                 
                 {/* Floating Connecting Lines */}
                 <svg className="absolute inset-0 w-full h-full pointer-events-none opacity-40 group-hover:opacity-100 transition-opacity duration-1000" style={{ filter: "drop-shadow(0 0 12px rgba(59, 130, 246, 0.6))" }}>
@@ -126,42 +158,79 @@ export default function LandingPage() {
                   </defs>
                 </svg>
 
-                {/* UI Element 1: Open Pothole */}
-                <div className="absolute top-12 right-12 p-4 rounded-2xl bg-white/[0.03] backdrop-blur-xl border border-white/10 shadow-2xl space-y-3 w-64 transform translate-y-4 shadow-black/50 group-hover:-translate-y-2 transition-transform duration-700">
-                  <div className="flex justify-between items-start">
-                    <div>
-                      <span className="text-sm font-semibold text-white">Pothole on 5th Ave</span>
-                      <p className="text-[10px] text-slate-400 mt-0.5">Reported 2 hours ago</p>
+                {/* Workflow Cards */}
+                <div className="absolute inset-0 flex flex-col items-center justify-center p-4 sm:p-8 gap-5 pointer-events-none z-10">
+                  
+                  {/* Card 1 */}
+                  <div className="relative overflow-hidden w-72 p-[1px] rounded-[1.25rem] bg-gradient-to-br from-blue-500/50 via-white/5 to-transparent shadow-2xl transform -translate-x-6 group-hover:translate-x-0 transition-all duration-700 hover:-translate-y-1 hover:shadow-[0_0_40px_rgba(59,130,246,0.4)] cursor-default pointer-events-auto group/card">
+                    <div className="absolute top-0 left-[-100%] w-[50%] h-full bg-gradient-to-r from-transparent via-white/20 to-transparent skew-x-[25deg] group-hover/card:left-[200%] transition-all duration-1000 ease-in-out z-20 pointer-events-none"></div>
+                    <div className="relative bg-[#0a0a0a]/90 backdrop-blur-2xl rounded-2xl p-4 flex items-center gap-4 transition-colors duration-500 overflow-hidden">
+                      <div className="absolute inset-0 bg-[radial-gradient(circle_at_0%_50%,rgba(59,130,246,0.15),transparent_70%)] group-hover/card:bg-[radial-gradient(circle_at_0%_50%,rgba(59,130,246,0.35),transparent_70%)] transition-all duration-500"></div>
+                      <div className="relative z-10 w-12 h-12 rounded-[0.85rem] bg-blue-500/20 flex flex-shrink-0 items-center justify-center border border-blue-400/50 text-blue-300 shadow-[0_0_20px_rgba(59,130,246,0.4)] group-hover/card:scale-110 transition-transform duration-500">
+                        <MapPin className="w-5 h-5 drop-shadow-[0_0_8px_rgba(59,130,246,0.8)]" />
+                      </div>
+                      <div className="relative z-10 flex-1">
+                        <div className="flex justify-between items-start mb-0.5">
+                          <p className="text-[15px] font-bold text-white tracking-wide drop-shadow-md">Report Issue</p>
+                          <span className="text-[9px] uppercase tracking-wider font-bold text-blue-300 bg-blue-500/20 px-2 py-0.5 rounded-full border border-blue-500/30">Step 1</span>
+                        </div>
+                        <p className="text-[11px] text-blue-200 mt-0.5 font-medium drop-shadow-sm">GPS + Image Upload</p>
+                      </div>
                     </div>
-                    <span className="px-2 py-0.5 rounded-md text-[10px] font-bold bg-yellow-500/10 text-yellow-500 border border-yellow-500/20">In Progress</span>
                   </div>
-                  <div className="w-full bg-white/5 rounded-full h-1 overflow-hidden">
-                    <div className="bg-yellow-500 h-1 rounded-full w-[65%]"></div>
+                  
+                  {/* Card 2 */}
+                  <div className="relative overflow-hidden w-72 p-[1px] rounded-[1.25rem] bg-gradient-to-br from-indigo-500/50 via-white/5 to-transparent shadow-2xl transform translate-x-6 group-hover:translate-x-0 transition-all duration-700 delay-75 hover:-translate-y-1 hover:shadow-[0_0_40px_rgba(99,102,241,0.4)] cursor-default pointer-events-auto group/card">
+                    <div className="absolute top-0 left-[-100%] w-[50%] h-full bg-gradient-to-r from-transparent via-white/20 to-transparent skew-x-[25deg] group-hover/card:left-[200%] transition-all duration-1000 ease-in-out z-20 pointer-events-none delay-75"></div>
+                    <div className="relative bg-[#0a0a0a]/90 backdrop-blur-2xl rounded-2xl p-4 flex items-center gap-4 transition-colors duration-500 overflow-hidden">
+                      <div className="absolute inset-0 bg-[radial-gradient(circle_at_0%_50%,rgba(99,102,241,0.15),transparent_70%)] group-hover/card:bg-[radial-gradient(circle_at_0%_50%,rgba(99,102,241,0.35),transparent_70%)] transition-all duration-500"></div>
+                      <div className="relative z-10 w-12 h-12 rounded-[0.85rem] bg-indigo-500/20 flex flex-shrink-0 items-center justify-center border border-indigo-400/50 text-indigo-300 shadow-[0_0_20px_rgba(99,102,241,0.4)] group-hover/card:scale-110 transition-transform duration-500">
+                        <Building2 className="w-5 h-5 drop-shadow-[0_0_8px_rgba(99,102,241,0.8)]" />
+                      </div>
+                      <div className="relative z-10 flex-1">
+                        <div className="flex justify-between items-start mb-0.5">
+                          <p className="text-[15px] font-bold text-white tracking-wide drop-shadow-md">Authority Review</p>
+                          <span className="text-[9px] uppercase tracking-wider font-bold text-indigo-300 bg-indigo-500/20 px-2 py-0.5 rounded-full border border-indigo-500/30">Step 2</span>
+                        </div>
+                        <p className="text-[11px] text-indigo-200 mt-0.5 font-medium drop-shadow-sm">Verify & Assign</p>
+                      </div>
+                    </div>
                   </div>
-                </div>
 
-                {/* UI Element 2: Resolved Issue */}
-                <div className="absolute bottom-24 left-12 p-4 rounded-2xl bg-white/[0.03] backdrop-blur-xl border border-white/10 shadow-2xl flex items-center gap-4 w-72 transform -translate-y-4 shadow-black/50 group-hover:translate-y-2 transition-transform duration-700">
-                  <div className="w-12 h-12 rounded-full bg-green-500/10 flex items-center justify-center border border-green-500/20 box-shadow-[0_0_20px_rgba(34,197,94,0.2)]">
-                    <Shield className="w-6 h-6 text-green-500" />
+                  {/* Card 3 */}
+                  <div className="relative overflow-hidden w-72 p-[1px] rounded-[1.25rem] bg-gradient-to-br from-yellow-500/50 via-white/5 to-transparent shadow-2xl transform -translate-x-6 group-hover:translate-x-0 transition-all duration-700 delay-150 hover:-translate-y-1 hover:shadow-[0_0_40px_rgba(234,179,8,0.4)] cursor-default pointer-events-auto group/card">
+                    <div className="absolute top-0 left-[-100%] w-[50%] h-full bg-gradient-to-r from-transparent via-white/20 to-transparent skew-x-[25deg] group-hover/card:left-[200%] transition-all duration-1000 ease-in-out z-20 pointer-events-none delay-150"></div>
+                    <div className="relative bg-[#0a0a0a]/90 backdrop-blur-2xl rounded-2xl p-4 flex items-center gap-4 transition-colors duration-500 overflow-hidden">
+                      <div className="absolute inset-0 bg-[radial-gradient(circle_at_0%_50%,rgba(234,179,8,0.15),transparent_70%)] group-hover/card:bg-[radial-gradient(circle_at_0%_50%,rgba(234,179,8,0.35),transparent_70%)] transition-all duration-500"></div>
+                      <div className="relative z-10 w-12 h-12 rounded-[0.85rem] bg-yellow-500/20 flex flex-shrink-0 items-center justify-center border border-yellow-400/50 text-yellow-300 shadow-[0_0_20px_rgba(234,179,8,0.4)] group-hover/card:scale-110 transition-transform duration-500">
+                        <Wrench className="w-5 h-5 drop-shadow-[0_0_8px_rgba(234,179,8,0.8)]" />
+                      </div>
+                      <div className="relative z-10 flex-1">
+                        <div className="flex justify-between items-start mb-0.5">
+                          <p className="text-[15px] font-bold text-white tracking-wide drop-shadow-md">Resolution</p>
+                          <span className="text-[9px] uppercase tracking-wider font-bold text-yellow-300 bg-yellow-500/20 px-2 py-0.5 rounded-full border border-yellow-500/30">Step 3</span>
+                        </div>
+                        <p className="text-[11px] text-yellow-200 mt-0.5 font-medium drop-shadow-sm">Status Updated</p>
+                      </div>
+                    </div>
                   </div>
-                  <div>
-                    <p className="text-sm font-bold text-white">Streetlight Repaired</p>
-                    <p className="text-xs text-slate-400 mt-0.5">Verified by DPW Team • 1m ago</p>
-                  </div>
-                </div>
 
-                {/* Glowing Map Pins */}
-                <div className="absolute top-[45%] left-[40%] group-hover:scale-125 transition-transform duration-500">
-                  <div className="relative">
-                    <div className="absolute -inset-2 bg-blue-500 rounded-full blur-md opacity-50 animate-pulse"></div>
-                    <div className="relative w-4 h-4 bg-blue-500 rounded-full border-[3px] border-[#0B0C0E]"></div>
-                  </div>
-                </div>
-                <div className="absolute top-[30%] right-[35%] group-hover:scale-125 transition-transform duration-500 delay-100">
-                  <div className="relative">
-                    <div className="absolute -inset-2 bg-red-500 rounded-full blur-md opacity-40 animate-pulse delay-75"></div>
-                    <div className="relative w-3 h-3 bg-red-500 rounded-full border-2 border-[#0B0C0E]"></div>
+                  {/* Card 4 */}
+                  <div className="relative overflow-hidden w-72 p-[1px] rounded-[1.25rem] bg-gradient-to-br from-green-500/50 via-white/5 to-transparent shadow-2xl transform translate-x-6 group-hover:translate-x-0 transition-all duration-700 delay-200 hover:-translate-y-1 hover:shadow-[0_0_40px_rgba(34,197,94,0.4)] cursor-default pointer-events-auto group/card">
+                    <div className="absolute top-0 left-[-100%] w-[50%] h-full bg-gradient-to-r from-transparent via-white/20 to-transparent skew-x-[25deg] group-hover/card:left-[200%] transition-all duration-1000 ease-in-out z-20 pointer-events-none delay-200"></div>
+                    <div className="relative bg-[#0a0a0a]/90 backdrop-blur-2xl rounded-2xl p-4 flex items-center gap-4 transition-colors duration-500 overflow-hidden">
+                      <div className="absolute inset-0 bg-[radial-gradient(circle_at_0%_50%,rgba(34,197,94,0.15),transparent_70%)] group-hover/card:bg-[radial-gradient(circle_at_0%_50%,rgba(34,197,94,0.35),transparent_70%)] transition-all duration-500"></div>
+                      <div className="relative z-10 w-12 h-12 rounded-[0.85rem] bg-green-500/20 flex flex-shrink-0 items-center justify-center border border-green-400/50 text-green-300 shadow-[0_0_20px_rgba(34,197,94,0.4)] group-hover/card:scale-110 transition-transform duration-500">
+                        <CheckCircle2 className="w-5 h-5 drop-shadow-[0_0_8px_rgba(34,197,94,0.8)]" />
+                      </div>
+                      <div className="relative z-10 flex-1">
+                        <div className="flex justify-between items-start mb-0.5">
+                          <p className="text-[15px] font-bold text-white tracking-wide drop-shadow-md">Citizen Notified</p>
+                          <span className="text-[9px] uppercase tracking-wider font-bold text-green-300 bg-green-500/20 px-2 py-0.5 rounded-full border border-green-500/30">Step 4</span>
+                        </div>
+                        <p className="text-[11px] text-green-200 mt-0.5 font-medium drop-shadow-sm">Real-time Tracking</p>
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -177,27 +246,27 @@ export default function LandingPage() {
           <div className="grid grid-cols-2 md:grid-cols-4 gap-12">
             <div className="space-y-3">
               <div className="flex items-center gap-2 text-slate-400 font-medium tracking-wide text-sm uppercase">
-                <MapPin className="w-4 h-4 text-blue-500" /> Issues Logged
+                <MapPin className="w-4 h-4 text-blue-500" /> GPS Enabled
               </div>
-              <p className="text-5xl font-bold text-white tracking-tight">1,200<span className="text-blue-500 text-3xl">+</span></p>
+              <p className="text-3xl font-bold text-white tracking-tight">Live <span className="text-blue-500">Location</span></p>
             </div>
             <div className="space-y-3">
               <div className="flex items-center gap-2 text-slate-400 font-medium tracking-wide text-sm uppercase">
-                <Zap className="w-4 h-4 text-yellow-500" /> Avg Resolution
+                <Shield className="w-4 h-4 text-yellow-500" /> Secure
               </div>
-              <p className="text-5xl font-bold text-white tracking-tight">36<span className="text-yellow-500 text-3xl">h</span></p>
+              <p className="text-3xl font-bold text-white tracking-tight">JWT <span className="text-yellow-500">Auth</span></p>
             </div>
             <div className="space-y-3">
               <div className="flex items-center gap-2 text-slate-400 font-medium tracking-wide text-sm uppercase">
-                <Shield className="w-4 h-4 text-green-500" /> Resolution Rate
+                <Users className="w-4 h-4 text-green-500" /> Multi-State
               </div>
-              <p className="text-5xl font-bold text-white tracking-tight">98<span className="text-green-500 text-3xl">%</span></p>
+              <p className="text-3xl font-bold text-white tracking-tight">Authority <span className="text-green-500">Portal</span></p>
             </div>
             <div className="space-y-3">
               <div className="flex items-center gap-2 text-slate-400 font-medium tracking-wide text-sm uppercase">
-                <Users className="w-4 h-4 text-purple-500" /> Target Cities
+                <Zap className="w-4 h-4 text-purple-500" /> Real-Time
               </div>
-              <p className="text-5xl font-bold text-white tracking-tight">50<span className="text-purple-500 text-3xl">+</span></p>
+              <p className="text-3xl font-bold text-white tracking-tight">Issue <span className="text-purple-500">Tracking</span></p>
             </div>
           </div>
         </section>
@@ -221,8 +290,8 @@ export default function LandingPage() {
                   <span className="text-5xl font-extrabold text-white/5 group-hover:text-blue-500/10 transition-colors">01</span>
                 </div>
                 <div className="space-y-3">
-                  <h3 className="text-2xl font-bold text-white">Report Instantly</h3>
-                  <p className="text-slate-400 leading-relaxed font-light">Geolocate issues automatically, append categorization metadata, and push directly to the public ledger without cumbersome paperwork.</p>
+                  <h3 className="text-2xl font-bold text-white flex items-center gap-2">📍 Report Instantly</h3>
+                  <p className="text-slate-400 leading-relaxed font-light">Report civic issues with live location, images, priority, and category in just a few clicks.</p>
                 </div>
               </div>
             </div>
@@ -237,8 +306,8 @@ export default function LandingPage() {
                   <span className="text-5xl font-extrabold text-white/5 group-hover:text-indigo-500/10 transition-colors">02</span>
                 </div>
                 <div className="space-y-3">
-                  <h3 className="text-2xl font-bold text-white">Track Live Sync</h3>
-                  <p className="text-slate-400 leading-relaxed font-light">Monitor state changes in real-time as local authorities prioritize, inspect, and transition the issue status across their Kanban boards.</p>
+                  <h3 className="text-2xl font-bold text-white flex items-center gap-2">📈 Track Progress</h3>
+                  <p className="text-slate-400 leading-relaxed font-light">Follow issue updates as authorities review, assign, and resolve requests in real time.</p>
                 </div>
               </div>
             </div>
@@ -253,8 +322,8 @@ export default function LandingPage() {
                   <span className="text-5xl font-extrabold text-white/5 group-hover:text-green-500/10 transition-colors">03</span>
                 </div>
                 <div className="space-y-3">
-                  <h3 className="text-2xl font-bold text-white">Immutable Audit</h3>
-                  <p className="text-slate-400 leading-relaxed font-light">Once resolved, the outcome is recorded permanently. Compare historical efficiency stats across districts and hold leaders accountable.</p>
+                  <h3 className="text-2xl font-bold text-white flex items-center gap-2">🛡️ Authority Dashboard</h3>
+                  <p className="text-slate-400 leading-relaxed font-light">State authorities prioritize issues, assign work, and update their status until completion.</p>
                 </div>
               </div>
             </div>
