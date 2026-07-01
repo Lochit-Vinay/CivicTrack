@@ -40,6 +40,8 @@ const issueFormSchema = z.object({
   location: z.string().min(1, 'Location is required'),
   category: z.string().min(1, 'Category is required'),
   priority: z.enum(['low', 'medium', 'high', 'critical']),
+  state: z.string().min(1, 'State is required'),
+  status: z.string().optional(),
 });
 
 type IssueFormValues = z.infer<typeof issueFormSchema>;
@@ -62,6 +64,45 @@ const categories = [
   'Other',
 ];
 
+const indianStates = [
+  "Andhra Pradesh",
+  "Arunachal Pradesh",
+  "Assam",
+  "Bihar",
+  "Chhattisgarh",
+  "Goa",
+  "Gujarat",
+  "Haryana",
+  "Himachal Pradesh",
+  "Jharkhand",
+  "Karnataka",
+  "Kerala",
+  "Madhya Pradesh",
+  "Maharashtra",
+  "Manipur",
+  "Meghalaya",
+  "Mizoram",
+  "Nagaland",
+  "Odisha",
+  "Punjab",
+  "Rajasthan",
+  "Sikkim",
+  "Tamil Nadu",
+  "Telangana",
+  "Tripura",
+  "Uttar Pradesh",
+  "Uttarakhand",
+  "West Bengal",
+  "Andaman and Nicobar Islands",
+  "Chandigarh",
+  "Dadra and Nagar Haveli and Daman and Diu",
+  "Delhi",
+  "Jammu and Kashmir",
+  "Ladakh",
+  "Lakshadweep",
+  "Puducherry"
+];
+
 export function IssueForm({
   issue,
   isLoading = false,
@@ -69,6 +110,26 @@ export function IssueForm({
   onClose,
 }: IssueFormProps) {
   const [location, setLocation] = useState<any>(null);
+  const [userRole, setUserRole] = useState<string | null>(null);
+  const [imageBase64, setImageBase64] = useState<string | null>(issue?.image || null);
+
+  const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setImageBase64(reader.result as string);
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      setUserRole(localStorage.getItem('role'));
+    }
+  }, []);
+
   const {
     register,
     handleSubmit,
@@ -91,11 +152,15 @@ export function IssueForm({
       })(),
       category: issue?.category || '',
       priority: (issue?.priority as 'low' | 'medium' | 'high' | 'critical') || 'medium',
+      state: issue?.state || '',
+      status: issue?.status || 'pending',
     },
   });
 
   const priorityValue = watch('priority');
   const categoryValue = watch('category');
+  const stateValue = watch('state');
+  const statusValue = watch('status');
 
   const handleFormSubmit = async (data: IssueFormValues) => {
     try {
@@ -124,6 +189,9 @@ export function IssueForm({
           lat: finalLat,
           lng: finalLng
         }),
+        state: data.state,
+        status: data.status,
+        image: imageBase64,
       });
       onClose();
     } catch (error) {
@@ -167,6 +235,24 @@ export function IssueForm({
           </Field>
           {errors.description && (
             <p className="text-xs text-red-400">{errors.description.message}</p>
+          )}
+        </FieldGroup>
+
+        <FieldGroup>
+          <FieldLabel>Attach Image (Optional)</FieldLabel>
+          <Field>
+            <Input
+              type="file"
+              accept="image/*"
+              onChange={handleImageChange}
+              className="bg-white/5 border-white/10 focus:border-blue-500/50 focus:ring-4 focus:ring-blue-500/10 transition-all rounded-xl text-white file:mr-4 file:py-1 file:px-4 file:rounded-xl file:border-0 file:text-sm file:font-semibold file:bg-blue-600/20 file:text-blue-400 hover:file:bg-blue-600/30 cursor-pointer"
+              disabled={isLoading || isSubmitting}
+            />
+          </Field>
+          {imageBase64 && (
+            <div className="mt-3 relative w-full h-32 rounded-xl overflow-hidden border border-white/10 bg-black/20 flex items-center justify-center">
+              <img src={imageBase64} alt="Preview" className="max-h-full object-contain" />
+            </div>
           )}
         </FieldGroup>
 
@@ -239,7 +325,57 @@ export function IssueForm({
           </FieldGroup>
         </div>
 
-        <DialogFooter>
+        <div className="grid grid-cols-2 gap-4">
+          <FieldGroup>
+            <FieldLabel>State / Union Territory</FieldLabel>
+            <Field>
+              <Select
+                value={stateValue}
+                onValueChange={(value) => setValue('state', value)}
+                disabled={isLoading || isSubmitting}
+              >
+                <SelectTrigger className="bg-white/5 border-white/10 focus:ring-4 focus:ring-blue-500/10 transition-all rounded-xl text-white">
+                  <SelectValue placeholder="Select State" />
+                </SelectTrigger>
+                <SelectContent>
+                  {indianStates.map((st) => (
+                    <SelectItem key={st} value={st}>
+                      {st}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </Field>
+            {errors.state && (
+              <p className="text-xs text-red-400">{errors.state.message}</p>
+            )}
+          </FieldGroup>
+
+          {(userRole === 'authority' || userRole === 'admin') && issue ? (
+            <FieldGroup>
+              <FieldLabel>Status</FieldLabel>
+              <Field>
+                <Select
+                  value={statusValue || 'pending'}
+                  onValueChange={(value) => setValue('status', value)}
+                  disabled={isLoading || isSubmitting}
+                >
+                  <SelectTrigger className="bg-white/5 border-white/10 focus:ring-4 focus:ring-blue-500/10 transition-all rounded-xl text-white">
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="pending">Pending</SelectItem>
+                    <SelectItem value="in_progress">In Progress</SelectItem>
+                    <SelectItem value="resolved">Resolved</SelectItem>
+                    <SelectItem value="closed">Closed</SelectItem>
+                  </SelectContent>
+                </Select>
+              </Field>
+            </FieldGroup>
+          ) : null}
+        </div>
+
+        <DialogFooter className="pt-2">
           <Button
             type="button"
             variant="ghost"
