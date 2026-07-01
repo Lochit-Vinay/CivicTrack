@@ -383,36 +383,7 @@ CivicTrack exposes a REST API built with Gin, secured via JWT and role-based mid
 
 </div>
 
----
 
-## 🗺️ Roadmap
-
-**✅ Completed**
-
-- [x] Google Login & JWT Authentication
-- [x] Role-based Authorization
-- [x] Issue Reporting, Listing & Details
-- [x] Authority & Admin Dashboards
-- [x] Status Updates & Issue Assignment
-- [x] Live GPS & Map Integration
-- [x] Responsive UI & Modern Landing Page
-- [x] Protected Routes & Backend APIs
-- [x] PostgreSQL Integration
-
-**🚧 Planned**
-
-- [ ] Email & Push Notifications
-- [ ] Live WebSocket Updates
-- [ ] Analytics Dashboard
-- [ ] Issue Heatmaps
-- [ ] Citizen Reputation System
-- [ ] AI-Powered Duplicate Detection
-- [ ] AI Issue Categorization
-- [ ] Image Moderation
-- [ ] Government Department Routing
-- [ ] Mobile App (React Native)
-
----
 
 ## 🎯 Why This Project
 
