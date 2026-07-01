@@ -6,12 +6,15 @@ import { Empty } from '@/components/ui/empty';
 
 interface IssuesListProps {
   issues: Issue[];
+  userRole?: string | null;
+  onUpdateStatus?: (issue: Issue, status: string) => Promise<void>;
   onEdit: (issue: Issue) => void;
   onDelete: (id: number) => void;
   onFocusMap: (lat: number, lng: number) => void;
+  onViewIssue: (issue: Issue) => void;
 }
 
-export function IssuesList({ issues, onEdit, onDelete, onFocusMap }: IssuesListProps) {
+export function IssuesList({ issues, userRole, onUpdateStatus, onEdit, onDelete, onFocusMap, onViewIssue }: IssuesListProps) {
   if (!issues || issues.length === 0) {
     return (
       <Empty
@@ -28,9 +31,12 @@ export function IssuesList({ issues, onEdit, onDelete, onFocusMap }: IssuesListP
         <IssueCard
           key={issue.id}
           issue={issue}
+          userRole={userRole}
+          onUpdateStatus={onUpdateStatus}
           onEdit={onEdit}
           onDelete={onDelete}
           onFocusMap={onFocusMap}
+          onViewIssue={onViewIssue}
         />
       ))}
     </div>
