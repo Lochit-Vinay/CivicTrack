@@ -365,8 +365,7 @@ Use the following credentials to explore the different dashboards.
 | Password | `admin@123` |
 
 > ⚠️ These are demo credentials intended for testing and showcasing the application.
-
-
+---
 ## 📡 API Overview
 
 CivicTrack exposes a REST API built with Gin, secured via JWT and role-based middleware.
