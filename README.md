@@ -24,7 +24,7 @@
 <br />
 
 <p align="center">
-  <img src="./assets/landing-page.png" alt="CivicTrack Landing Page" width="100%">
+  <img src="./assets/Landing-page.png" alt="CivicTrack Landing Page" width="100%">
 </p>
 
 ---
