@@ -407,7 +407,7 @@ CivicTrack exposes a REST API built with Gin, secured via JWT and role-based mid
 
 | Login Page | Map View |
 |---|---|
-| ![Login](https://via.placeholder.com/500x300/0d1117/58a6ff?text=Login+Page) | ![Map](https://via.placeholder.com/500x300/0d1117/58a6ff?text=Interactive+Map) |
+| ![Login](./assets/Loginpage.png) | ![Map](https://via.placeholder.com/500x300/0d1117/58a6ff?text=Interactive+Map) |
 
 </div>
 
