@@ -337,6 +337,35 @@ Make sure you have the following installed:
 | `NEXT_PUBLIC_API_URL` | Base URL of the backend API | Frontend |
 
 ---
+## 🔑 Demo Credentials
+
+Use the following credentials to explore the different dashboards.
+
+> **Citizen Login**
+>
+> - Authentication: **Google OAuth**
+> - Simply click **Continue with Google** on the login page.
+
+---
+
+### 🏢 State Authority
+
+| Field | Value |
+|-------|-------|
+| Email | `karnataka_auth@civictrack.com` |
+| Password | `karnataka@123` |
+
+---
+
+### 🛡️ Super Admin
+
+| Field | Value |
+|-------|-------|
+| Email | `admin@civictrack.com` |
+| Password | `admin@123` |
+
+> ⚠️ These are demo credentials intended for testing and showcasing the application.
+
 
 ## 📡 API Overview
 
