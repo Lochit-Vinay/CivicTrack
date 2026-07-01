@@ -33,6 +33,8 @@ func GoogleLogin(c *gin.Context) {
 
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, jwt.MapClaims{
 		"email": email,
+		"role":  "citizen",
+		"state": "",
 		"exp":   time.Now().Add(time.Hour * 24).Unix(),
 	})
 
