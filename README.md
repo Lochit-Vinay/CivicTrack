@@ -14,7 +14,6 @@
 [![TailwindCSS](https://img.shields.io/badge/Tailwind_CSS-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white)](https://tailwindcss.com/)
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg?style=flat-square)](LICENSE)
-[![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat-square)](CONTRIBUTING.md)
 [![Made with Go](https://img.shields.io/badge/Backend-Gin_Framework-00ADD8?style=flat-square)](https://gin-gonic.com/)
 [![Auth](https://img.shields.io/badge/Auth-Google_OAuth_%2B_JWT-4285F4?style=flat-square)](#-authentication--security)
 
