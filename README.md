@@ -376,8 +376,6 @@ CivicTrack exposes a REST API built with Gin, secured via JWT and role-based mid
 | **User Management** | Profile and account operations |
 | **Role Verification** | Middleware-enforced access control |
 
-> 📘 Full endpoint documentation is available in [`/docs/api.md`](docs/api.md) *(coming soon)*.
-
 **Security measures include:**
 - JWT-based authentication on all protected routes
 - Role-based authorization middleware
