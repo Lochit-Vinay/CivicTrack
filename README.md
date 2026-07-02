@@ -436,8 +436,10 @@ Distributed under the **MIT License**. See [`LICENSE`](LICENSE) for more informa
 
 <div align="center">
 
-**Built with ❤️ to make civic accountability transparent and accessible.**
+## 🚀 Crafted with ❤️ by **Lochit Vinay**
 
-⭐ Star this repo if you find it useful!
+*Building technology that creates real-world impact.*
+
+⭐ **If you found CivicTrack useful, consider giving this repository a star!**
 
 </div>
