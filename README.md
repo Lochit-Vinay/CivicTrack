@@ -18,7 +18,7 @@
 [![Made with Go](https://img.shields.io/badge/Backend-Gin_Framework-00ADD8?style=flat-square)](https://gin-gonic.com/)
 [![Auth](https://img.shields.io/badge/Auth-Google_OAuth_%2B_JWT-4285F4?style=flat-square)](#-authentication--security)
 
-[Live Demo](https://civic-track-zeta.vercel.app/) · [Report Bug](#) · [Request Feature](#) · [Documentation](#-api-overview)
+[Live Demo](https://civic-track-zeta.vercel.app/) · [Documentation](#-api-overview)
 
 </div>
 
