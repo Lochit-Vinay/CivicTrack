@@ -65,7 +65,7 @@ function LoginFormContent() {
     }
 
     try {
-      const res = await fetch("https://civictrack-backend-5ji4.onrender.com/login", {
+      const res = await fetch("https://civictrack-backend-5ij4.onrender.com/login", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email, password }),
@@ -167,7 +167,7 @@ function LoginFormContent() {
                     console.log("LOGIN SUCCESS", response);
                     if (response.credential) {
                       try {
-                        const res = await fetch("https://civictrack-backend-5ji4.onrender.com/auth/google", {
+                        const res = await fetch("https://civictrack-backend-5ij4.onrender.com/auth/google", {
                           method: "POST",
                           headers: { "Content-Type": "application/json" },
                           body: JSON.stringify({ token: response.credential }),
