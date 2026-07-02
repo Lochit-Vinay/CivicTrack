@@ -17,6 +17,7 @@ func main() {
 		AllowOrigins: []string{
 			"http://localhost:3000",
 			"https://civic-track-82wji117t-lochit-vinays-projects.vercel.app",
+			"https://civic-track-git-main-lochit-vinays-projects.vercel.app",
 		},
 		AllowMethods:     []string{"GET", "POST", "PUT", "DELETE", "OPTIONS"},
 		AllowHeaders:     []string{"Origin", "Content-Type", "Authorization"},
