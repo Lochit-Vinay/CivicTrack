@@ -16,7 +16,6 @@ func main() {
 	r.Use(cors.New(cors.Config{
 		AllowOrigins: []string{
 			"http://localhost:3000",
-			"https://civic-track-82wji117t-lochit-vinays-projects.vercel.app",
 			"https://civic-track-git-main-lochit-vinays-projects.vercel.app",
 		},
 		AllowMethods:     []string{"GET", "POST", "PUT", "DELETE", "OPTIONS"},
