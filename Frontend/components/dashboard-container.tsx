@@ -201,7 +201,7 @@ const filteredIssues = safeIssues.filter((issue) => {
             <div className="bg-red-900/30 rounded p-4 border border-red-700/20 text-sm">
               <p className="font-medium text-red-300 mb-2">To get started:</p>
               <ol className="list-decimal list-inside space-y-1 text-red-400/80">
-                <li>Ensure the backend API is running on <code className="bg-black/20 px-2 py-1 rounded">http://localhost:8080</code></li>
+                <li>Ensure the backend API is running on <code className="bg-black/20 px-2 py-1 rounded">https://civictrack-backend-5ij4.onrender.com</code></li>
                 <li>Check the API health by visiting <code className="bg-black/20 px-2 py-1 rounded">/api/health</code></li>
                 <li>Refer to the README.md for detailed setup instructions</li>
               </ol>
