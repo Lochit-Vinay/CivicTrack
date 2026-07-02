@@ -28,7 +28,7 @@ export const useIssues = () => {
     const token = localStorage.getItem("token");
 
     try {
-      const res = await fetch('http://localhost:8080/issues', {
+      const res = await fetch('https://civictrack-backend-5ij4.onrender.com/issues', {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -53,7 +53,7 @@ export const useIssues = () => {
     const token = localStorage.getItem("token");
 
     try {
-      const res = await fetch("http://localhost:8080/issues", {
+      const res = await fetch("https://civictrack-backend-5ij4.onrender.com/issues", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -83,7 +83,7 @@ export const useIssues = () => {
     const token = localStorage.getItem("token");
 
     try {
-      const res = await fetch(`http://localhost:8080/issues/${id}`, {
+      const res = await fetch(`https://civictrack-backend-5ij4.onrender.com/issues/${id}`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
@@ -121,7 +121,7 @@ export const useIssues = () => {
     const token = localStorage.getItem("token");
 
     try {
-      const res = await fetch(`http://localhost:8080/issues/${id}`, {
+      const res = await fetch(`https://civictrack-backend-5ij4.onrender.com/issues/${id}`, {
         method: "DELETE",
         headers: {
           Authorization: `Bearer ${token}`,
