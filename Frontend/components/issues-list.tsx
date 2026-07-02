@@ -2,7 +2,8 @@
 
 import { Issue } from '@/hooks/use-issues';
 import { IssueCard } from './issue-card';
-import { Empty } from '@/components/ui/empty';
+import { Empty, EmptyTitle, EmptyDescription, EmptyMedia } from '@/components/ui/empty';
+import { Inbox } from 'lucide-react';
 
 interface IssuesListProps {
   issues: Issue[];
@@ -17,11 +18,13 @@ interface IssuesListProps {
 export function IssuesList({ issues, userRole, onUpdateStatus, onEdit, onDelete, onFocusMap, onViewIssue }: IssuesListProps) {
   if (!issues || issues.length === 0) {
     return (
-      <Empty
-        heading="No issues yet"
-        description="Start by creating a new civic issue to track"
-        icon="inbox"
-      />
+      <Empty>
+        <EmptyMedia variant="icon">
+          <Inbox />
+        </EmptyMedia>
+        <EmptyTitle>No issues yet</EmptyTitle>
+        <EmptyDescription>Start by creating a new civic issue to track</EmptyDescription>
+      </Empty>
     );
   }
 
