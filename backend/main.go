@@ -4,6 +4,7 @@ import (
 	"civictrack/internal/db"
 	"civictrack/internal/handlers"
 	"civictrack/internal/middleware"
+	"os"
 
 	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
@@ -32,5 +33,11 @@ func main() {
 	r.PUT("/issues/:id", middleware.AuthMiddleware(), handlers.UpdateIssue)
 	r.DELETE("/issues/:id", middleware.AuthMiddleware(), handlers.DeleteIssue)
 	r.GET("/issues/:id", middleware.AuthMiddleware(), handlers.GetIssueByID)
-	r.Run(":8080")
+
+	port := os.Getenv("PORT")
+	if port == "" {
+		port = "8080"
+	}
+
+	r.Run(":" + port)
 }
