@@ -428,20 +428,6 @@ CivicTrack was built to demonstrate production-grade, full-stack engineering acr
 
 ---
 
-## 🤝 Contributing
-
-Contributions are what make the open-source community thrive. Any contributions you make are **greatly appreciated**.
-
-1. Fork the project
-2. Create your feature branch (`git checkout -b feature/AmazingFeature`)
-3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
-4. Push to the branch (`git push origin feature/AmazingFeature`)
-5. Open a Pull Request
-
-Please read [`CONTRIBUTING.md`](CONTRIBUTING.md) for our code of conduct and PR process.
-
----
-
 ## 📄 License
 
 Distributed under the **MIT License**. See [`LICENSE`](LICENSE) for more information.
