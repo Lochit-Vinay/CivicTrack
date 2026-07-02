@@ -45,7 +45,6 @@
 - [Screenshots](#-screenshots)
 - [Roadmap](#-roadmap)
 - [Why This Project](#-why-this-project)
-- [Contributing](#-contributing)
 - [License](#-license)
 
 ---
