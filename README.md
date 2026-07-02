@@ -41,7 +41,7 @@
 - [Project Structure](#-project-structure)
 - [Getting Started](#-getting-started)
 - [API Overview](#-api-overview)
-- [Screenshots](#-screenshots)
+- [Screenshots](https://github.com/Lochit-Vinay/CivicTrack#%EF%B8%8F-screenshots)
 - [Why This Project](#-why-this-project)
 - [License](#-license)
 
