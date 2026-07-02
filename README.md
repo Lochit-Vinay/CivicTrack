@@ -352,8 +352,8 @@ Use the following credentials to explore the different dashboards.
 
 | Field | Value |
 |-------|-------|
-| Email | `karnataka_auth@civictrack.com` |
-| Password | `karnataka@123` |
+| Email | `statename_auth@civictrack.com` |
+| Password | `statename@123` |
 
 ---
 
