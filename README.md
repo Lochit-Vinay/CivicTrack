@@ -324,7 +324,7 @@ Make sure you have the following installed:
 
 4. **Access the app**
 
-   Open [http://localhost:3000](http://localhost:3000) in your browser. 🎉
+   Open [http://localhost:3000](https://civic-track-zeta.vercel.app/) in your browser. 🎉
 
 ### Environment Variables
 
