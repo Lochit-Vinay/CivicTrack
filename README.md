@@ -42,7 +42,6 @@
 - [Getting Started](#-getting-started)
 - [API Overview](#-api-overview)
 - [Screenshots](#-screenshots)
-- [Roadmap](#-roadmap)
 - [Why This Project](#-why-this-project)
 - [License](#-license)
 
