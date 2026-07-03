@@ -85,7 +85,7 @@ export function DashboardContainer() {
 
   const handleDeleteClick = async (id: number) => {
     if (!window.confirm("Are you sure you want to delete this issue?")) return;
-    
+
     setIsDeleteLoading(true);
     try {
       await deleteIssue(id);
@@ -114,14 +114,14 @@ export function DashboardContainer() {
     setIsEditing(false);
   };
 
- const safeIssues = Array.isArray(issues) ? issues : [];
+  const safeIssues = Array.isArray(issues) ? issues : [];
 
-const filteredIssues = safeIssues.filter((issue) => {
-  const matchesSearch =
-  issue.title?.toLowerCase().includes(search.toLowerCase()) ?? false;
-  const matchesStatus = statusFilter === "all" || issue.status === statusFilter;
-  return matchesSearch && matchesStatus;
-});
+  const filteredIssues = safeIssues.filter((issue) => {
+    const matchesSearch =
+      issue.title?.toLowerCase().includes(search.toLowerCase()) ?? false;
+    const matchesStatus = statusFilter === "all" || issue.status === statusFilter;
+    return matchesSearch && matchesStatus;
+  });
 
   return (
     <div className="relative space-y-8 p-1">
@@ -137,13 +137,12 @@ const filteredIssues = safeIssues.filter((issue) => {
               CivicTrack
             </h1>
             {isClient && userRole && (
-              <span className={`px-2.5 py-1 rounded-full text-xs font-semibold uppercase tracking-wider ${
-                userRole === 'admin' 
-                  ? 'bg-red-500/10 text-red-400 border border-red-500/20' 
-                  : userRole === 'authority' 
-                  ? 'bg-purple-500/10 text-purple-400 border border-purple-500/20' 
-                  : 'bg-blue-500/10 text-blue-400 border border-blue-500/20'
-              }`}>
+              <span className={`px-2.5 py-1 rounded-full text-xs font-semibold uppercase tracking-wider ${userRole === 'admin'
+                  ? 'bg-red-500/10 text-red-400 border border-red-500/20'
+                  : userRole === 'authority'
+                    ? 'bg-purple-500/10 text-purple-400 border border-purple-500/20'
+                    : 'bg-blue-500/10 text-blue-400 border border-blue-500/20'
+                }`}>
                 {userRole}
               </span>
             )}
@@ -175,12 +174,14 @@ const filteredIssues = safeIssues.filter((issue) => {
           )}
 
           <Dialog open={isFormOpen} onOpenChange={setIsFormOpen}>
-            <DialogTrigger asChild>
-              <Button className="bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white shadow-lg shadow-blue-500/25 transition-all duration-300 hover:scale-105 active:scale-95 gap-2 font-medium border border-blue-400/20 rounded-xl px-5 py-6">
-                <Plus className="w-5 h-5" />
-                Report Issue
-              </Button>
-            </DialogTrigger>
+            {isClient && userRole === 'citizen' && (
+              <DialogTrigger asChild>
+                <Button className="bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white shadow-lg shadow-blue-500/25 transition-all duration-300 hover:scale-105 active:scale-95 gap-2 font-medium border border-blue-400/20 rounded-xl px-5 py-6">
+                  <Plus className="w-5 h-5" />
+                  Report Issue
+                </Button>
+              </DialogTrigger>
+            )}
             <IssueForm
               issue={selectedIssue || undefined}
               isLoading={isFormLoading}
@@ -290,7 +291,7 @@ const filteredIssues = safeIssues.filter((issue) => {
       )}
 
       {/* Delete Dialog has been replaced with window.confirm above */}
-      
+
       <Dialog open={isViewOpen} onOpenChange={setIsViewOpen}>
         <IssueDetailsModal issue={viewedIssue || undefined} />
       </Dialog>

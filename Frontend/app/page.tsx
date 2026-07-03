@@ -85,7 +85,7 @@ export default function LandingPage() {
       </nav>
 
       <main className="relative z-10 w-full max-w-[90rem] mx-auto px-6 lg:px-12 pt-24 pb-32 space-y-40">
-        
+
         {/* 1. HERO SECTION */}
         <section className="flex flex-col lg:flex-row items-center gap-20 lg:gap-12">
           {/* Left: Copy */}
@@ -97,23 +97,23 @@ export default function LandingPage() {
               </span>
               Civic Operations Platform
             </div>
-            
+
             <h1 className="text-5xl lg:text-7xl font-bold tracking-tight leading-[1.05] text-white">
-              Report Issues.<br className="hidden lg:block" /> 
+              Report Issues.<br className="hidden lg:block" />
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-slate-400 to-slate-600">Track Impact.</span><br />
               <span className="relative inline-block">
                 Hold Authorities
-                <svg className="absolute w-full h-4 -bottom-1 left-0 text-blue-500/40" viewBox="0 0 200 9" fill="none"><path d="M2.00018 7.0003C51.109 -2.04625 106.603 -1.82136 198.337 7.0003" stroke="currentColor" strokeWidth="3" strokeLinecap="round"/></svg>
+                <svg className="absolute w-full h-4 -bottom-1 left-0 text-blue-500/40" viewBox="0 0 200 9" fill="none"><path d="M2.00018 7.0003C51.109 -2.04625 106.603 -1.82136 198.337 7.0003" stroke="currentColor" strokeWidth="3" strokeLinecap="round" /></svg>
               </span> Accountable.
             </h1>
-            
+
             <p className="text-xl text-slate-400 leading-relaxed font-light">
               The modern infrastructure for neighborhood operations. Empower citizens to report localized problems, while delivering municipalities the CRM tools to prioritize and resolve them efficiently.
             </p>
-            
+
             <div className="flex flex-col sm:flex-row items-center gap-5 pt-4">
               <Link href="/dashboard" className="group w-full sm:w-auto px-8 py-4 rounded-full bg-white text-[#070708] font-semibold hover:bg-slate-200 transition-all shadow-[0_0_40px_-10px_rgba(255,255,255,0.2)] flex items-center justify-center gap-2">
-                View Live Dashboard 
+                View Live Dashboard
                 <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
               </Link>
               <Link href="/dashboard" className="w-full sm:w-auto px-8 py-4 rounded-full bg-white/[0.03] border border-white/10 text-white font-medium hover:bg-white/10 hover:border-white/20 transition-all flex items-center justify-center gap-2 backdrop-blur-md">
@@ -125,7 +125,7 @@ export default function LandingPage() {
           {/* Right: Actual Product UI Preview (Asymmetric Map Card) */}
           <div className={`flex-1 relative w-full aspect-square max-w-2xl lg:max-w-none transition-all duration-1000 ${mounted ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
             <div className="absolute inset-0 bg-[#0B0C0E] rounded-[2rem] border border-white/10 shadow-2xl overflow-hidden shadow-blue-900/10 transform lg:rotate-[1.5deg] hover:rotate-0 transition-transform duration-700 group">
-              
+
               {/* Fake OSX Window Header */}
               <div className="h-12 bg-white/[0.02] border-b border-white/5 flex items-center px-6 gap-2 backdrop-blur-sm relative z-20">
                 <div className="w-3 h-3 rounded-full bg-[#ff5f56] border border-[#e0443e]" />
@@ -141,11 +141,11 @@ export default function LandingPage() {
               <div className="relative h-full bg-[#040914] p-6 overflow-hidden">
                 {/* Dynamic Animated Grid */}
                 <div className="absolute inset-0 bg-[linear-gradient(to_right,#3b82f61a_1px,transparent_1px),linear-gradient(to_bottom,#3b82f61a_1px,transparent_1px)] bg-[size:24px_24px] [mask-image:radial-gradient(ellipse_80%_80%_at_50%_50%,#000_20%,transparent_100%)]"></div>
-                
+
                 {/* Glowing Orbs for Map Background */}
                 <div className="absolute top-[-10%] right-[-10%] w-96 h-96 bg-blue-600/20 rounded-full blur-[100px] pointer-events-none animate-pulse"></div>
                 <div className="absolute bottom-[-10%] left-[-10%] w-96 h-96 bg-indigo-600/20 rounded-full blur-[100px] pointer-events-none animate-pulse delay-1000"></div>
-                
+
                 {/* Floating Connecting Lines */}
                 <svg className="absolute inset-0 w-full h-full pointer-events-none opacity-40 group-hover:opacity-100 transition-opacity duration-1000" style={{ filter: "drop-shadow(0 0 12px rgba(59, 130, 246, 0.6))" }}>
                   <path d="M 150 200 Q 250 150 350 250 T 450 300" fill="none" stroke="url(#blue-gradient)" strokeWidth="2" strokeDasharray="6 6" className="animate-[dash_15s_linear_infinite]" />
@@ -160,7 +160,7 @@ export default function LandingPage() {
 
                 {/* Workflow Cards */}
                 <div className="absolute inset-0 flex flex-col items-center justify-center p-4 sm:p-8 gap-5 pointer-events-none z-10">
-                  
+
                   {/* Card 1 */}
                   <div className="relative overflow-hidden w-72 p-[1px] rounded-[1.25rem] bg-gradient-to-br from-blue-500/50 via-white/5 to-transparent shadow-2xl transform -translate-x-6 group-hover:translate-x-0 transition-all duration-700 hover:-translate-y-1 hover:shadow-[0_0_40px_rgba(59,130,246,0.4)] cursor-default pointer-events-auto group/card">
                     <div className="absolute top-0 left-[-100%] w-[50%] h-full bg-gradient-to-r from-transparent via-white/20 to-transparent skew-x-[25deg] group-hover/card:left-[200%] transition-all duration-1000 ease-in-out z-20 pointer-events-none"></div>
@@ -178,7 +178,7 @@ export default function LandingPage() {
                       </div>
                     </div>
                   </div>
-                  
+
                   {/* Card 2 */}
                   <div className="relative overflow-hidden w-72 p-[1px] rounded-[1.25rem] bg-gradient-to-br from-indigo-500/50 via-white/5 to-transparent shadow-2xl transform translate-x-6 group-hover:translate-x-0 transition-all duration-700 delay-75 hover:-translate-y-1 hover:shadow-[0_0_40px_rgba(99,102,241,0.4)] cursor-default pointer-events-auto group/card">
                     <div className="absolute top-0 left-[-100%] w-[50%] h-full bg-gradient-to-r from-transparent via-white/20 to-transparent skew-x-[25deg] group-hover/card:left-[200%] transition-all duration-1000 ease-in-out z-20 pointer-events-none delay-75"></div>
@@ -338,11 +338,11 @@ export default function LandingPage() {
 
           <div className="relative z-10 space-y-10 max-w-3xl mx-auto">
             <h2 className="text-4xl md:text-6xl font-extrabold text-white tracking-tight">Ready to map the future?</h2>
-            
+
             <p className="text-xl text-slate-400 font-light leading-relaxed px-4">
               Join thousands of citizens operating the most transparent civic infrastructure. Free for individuals. Powerful for municipalities.
             </p>
-            
+
 
           </div>
         </section>
@@ -363,7 +363,8 @@ export default function LandingPage() {
       </footer>
 
       {/* Global CSS for Animations */}
-      <style dangerouslySetInnerHTML={{__html: `
+      <style dangerouslySetInnerHTML={{
+        __html: `
         @keyframes dash {
           to { stroke-dashoffset: -1000; }
         }

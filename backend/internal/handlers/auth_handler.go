@@ -92,12 +92,18 @@ func Login(c *gin.Context) {
 			expectedPassword := stateName + "@123"
 			if stateName != "" && (input.Password == expectedPassword || input.Password == "state@123") {
 				hashedPassword, _ := bcrypt.GenerateFromPassword([]byte(input.Password), 14)
+				
+				assignedRole := "authority"
+				if stateName == "admin" {
+					assignedRole = "admin"
+				}
+
 				insertQuery := `INSERT INTO users (email, password, role, state) VALUES ($1, $2, $3, $4) RETURNING id`
-				err = db.DB.QueryRow(insertQuery, input.Email, string(hashedPassword), "authority", stateName).Scan(&user.ID)
+				err = db.DB.QueryRow(insertQuery, input.Email, string(hashedPassword), assignedRole, stateName).Scan(&user.ID)
 				if err == nil {
 					user.Email = input.Email
 					user.Password = string(hashedPassword)
-					user.Role = "authority"
+					user.Role = assignedRole
 					user.State = stateName
 				} else {
 					c.JSON(500, gin.H{"error": "Failed to create authority user on-the-fly"})
