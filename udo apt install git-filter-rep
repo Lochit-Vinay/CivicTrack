@@ -1,0 +1,11 @@
+[33mcommit 5fdf56dfa279eb564943aaf250a5e3ec0ab8a482[m
+Author: Lochit Vinay <lochitvinay111@gmail.com>
+Date:   Fri Jul 3 16:43:45 2026 +0530
+
+    Remove .env from repository
+
+[33mcommit fadd489aa531acc2f0504cddd006f3da1d4253bf[m
+Author: Lochit Vinay <lochitvinay111@gmail.com>
+Date:   Thu Jul 2 17:32:39 2026 +0530
+
+    Support dynamic port for Render deployment
