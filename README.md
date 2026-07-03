@@ -358,7 +358,7 @@ Use the following credentials to explore the different dashboards.
 
 | Field | Value |
 |-------|-------|
-| Email | `admin@civictrack.com` |
+| Email | `admin_auth@civictrack.com` |
 | Password | `admin@123` |
 
 > ⚠️ These are demo credentials intended for testing and showcasing the application.
