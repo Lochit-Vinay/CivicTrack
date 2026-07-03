@@ -390,19 +390,19 @@ CivicTrack exposes a REST API built with Gin, secured via JWT and role-based mid
 
 | Landing Page | Citizen Dashboard |
 |---|---|
-| ![Landing](./assets/Landing-page.png) | ![Citizen Dashboard](/home/lochit-vinay/Desktop/CivicTrack/assets/Loginpage.png) |
+| ![](./assets/Landing-page.png) | ![](./assets/Citizendashboard.png) |
 
 | Authority Dashboard | Admin Dashboard |
 |---|---|
-| ![Authority Dashboard](https://via.placeholder.com/500x300/0d1117/58a6ff?text=Authority+Dashboard) | ![Admin Dashboard](https://via.placeholder.com/500x300/0d1117/58a6ff?text=Admin+Dashboard) |
+| ![](./assets/Authoritydashboard.png) | ![](./assets/Admindashboard.png) |
 
 | Issue Details | Report Issue Form |
 |---|---|
-| ![Issue Details](https://via.placeholder.com/500x300/0d1117/58a6ff?text=Issue+Details) | ![Report Form](https://via.placeholder.com/500x300/0d1117/58a6ff?text=Report+Issue+Form) |
+| ![](./assets/Issuedetails.png) | ![](./assets/Reportissue.png) |
 
 | Login Page | Map View |
 |---|---|
-| ![Login](./assets/Loginpage.png) | ![Map](https://via.placeholder.com/500x300/0d1117/58a6ff?text=Interactive+Map) |
+| ![](./assets/Loginpage.png) | ![](./assets/Admindashboard.png) |
 
 </div>
 
