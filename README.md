@@ -388,21 +388,21 @@ CivicTrack exposes a REST API built with Gin, secured via JWT and role-based mid
 
 <div align="center">
 
-| Landing Page | Citizen Dashboard |
+| Landing Page | Login Page |
 |---|---|
-| ![](./assets/Landing-page.png) | ![](./assets/Citizendashboard.png) |
+| ![](./assets/Landing-page.png) | ![](./assets/Loginpage.png) |
 
-| Authority Dashboard | Admin Dashboard |
+| Citizen Dashboard | Authority Dashboard |
 |---|---|
-| ![](./assets/Authoritydashboard.png) | ![](./assets/Admindashboard.png) |
+| ![](./assets/Citizendashboard.png) | ![](./assets/Authoritydashboard.png) |
 
-| Issue Details | Report Issue Form |
+| Admin Dashboard | Issue Details |
 |---|---|
-| ![](./assets/Issuedetails.png) | ![](./assets/Reportissue.png) |
+| ![](./assets/Admindashboard.png) | ![](./assets/Issuedetails.png) |
 
-| Login Page | Map View |
+| Report Issue | Map View |
 |---|---|
-| ![](./assets/Loginpage.png) | ![](./assets/Mapview.png) |
+| ![](./assets/Reportissue.png) | ![](./assets/Mapview.png) |
 
 </div>
 
