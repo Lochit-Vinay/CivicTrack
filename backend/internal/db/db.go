@@ -28,5 +28,5 @@ func ConnectDB() {
 		log.Fatal(err)
 	}
 
-	log.Println("Connected to PostgreSQL ✅")
+	log.Println("Connected to PostgreSQL")
 }
